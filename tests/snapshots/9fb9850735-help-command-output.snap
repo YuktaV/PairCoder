@@ -1,0 +1,19 @@
+Usage: pc [options] [command]
+
+PairCoder - Model Context Protocol server for efficient AI-assisted development
+
+Options:
+  -V, --version                  output the version number
+  -h, --help                     display help for command
+
+Commands:
+  init [options]                 Initialize PairCoder in the current directory
+  module                         Manage project modules
+  focus [options] [module]       Set focus on a specific module
+  generate [options] [module]    Generate context for modules
+  export [options] <module>      Export context for Claude
+  config [action] [key] [value]  Manage PairCoder configuration
+  scan [options]                 Scan project files using exclusion patterns
+  exclude [action] [pattern]     Manage file exclusion patterns
+  prompt                         Manage prompt templates
+  help [command]                 display help for command

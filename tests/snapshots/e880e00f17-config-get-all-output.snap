@@ -1,0 +1,14 @@
+[34mCurrent PairCoder Configuration:[39m
+
+[34mproject:[39m
+  [1mproject[22m: [36m{"name":"","root":"","excludes":["node_modules","dist",".git","build"]}[39m
+
+[34mmodules:[39m
+  [1mmodules[22m: [36m[][39m
+
+[34mcontext:[39m
+  [1mcontext[22m: [36m{"defaultLevel":"medium","tokenBudget":4000}[39m
+
+[34mversioning:[39m
+  [1mversioning[22m: [36m{"enabled":true,"gitIntegration":false}[39m
+

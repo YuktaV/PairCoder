@@ -1,0 +1,10 @@
+#!/usr/bin/env node
+
+/**
+ * PairCoder CLI Entry Point
+ * 
+ * This is the main entry point for the PairCoder CLI.
+ */
+
+// Just require the pc.js file to reuse all its functionality
+require('./pc.js');

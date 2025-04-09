@@ -5,8 +5,8 @@
  * new dependency injection pattern for more comprehensive testing.
  */
 
-// Import the module factory function
-const { createModuleCommands } = require('../src/cli/commands/module');
+// Import the module extended factory function
+const { createExtendedModuleCommands } = require('../src/cli/commands/module-extended-factory');
 
 // Custom mock manager that uses both our mock handlers and can track calls
 class MockModuleManager {
@@ -73,7 +73,7 @@ const mockModuleManager = new MockModuleManager();
 const mockProjectScanner = { scanProject: jest.fn() };
 
 // Create module commands with mocked dependencies
-const mockModuleCommands = createModuleCommands({
+const mockModuleCommands = createExtendedModuleCommands({
   moduleManager: mockModuleManager,
   projectScanner: mockProjectScanner
 });

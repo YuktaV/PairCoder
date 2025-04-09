@@ -4,6 +4,8 @@ This document outlines the key principles and patterns for writing effective tes
 
 ## Dependency Injection Pattern
 
+> **Implementation Update**: We've successfully applied this pattern to the `prompt.js`, `module.js`, and `config.js` commands. See the implementations in `prompt-improved.test.js`, `module-extended.test.js`, and `config-improved.test.js` for reference.
+
 ### Why Use Dependency Injection?
 
 1. **Improved Testability**: By injecting dependencies, we can easily mock/stub them for testing
@@ -162,6 +164,80 @@ Sometimes a direct assertion isn't possible due to implementation details. In th
 3. **Clear Descriptions**: Use descriptive test and describe blocks to document behavior
 4. **Test Negative Cases**: Don't just test the happy path; test error handling and edge cases
 5. **Reset Mocks**: Clear mock state between tests using `jest.clearAllMocks()`
+
+## Command Factory Pattern
+
+We've implemented a factory pattern for CLI commands that makes dependency injection and testing more straightforward. This approach has several benefits:
+
+1. **Consistent Interface**: All command modules follow the same structural pattern
+2. **Simplified Testing**: Dependencies can be easily mocked in tests
+3. **Clear Separation**: Business logic is separated from dependency initialization
+4. **Reusability**: Command implementations can be reused with different dependencies
+
+### Implementation Example
+
+The typical structure for a command factory is:
+
+```javascript
+// Factory function in command-factory.js
+function createCommandFunctions(deps = {}) {
+  // Extract dependencies with defaults
+  const dependency1 = deps.dependency1 || require('path/to/real/dependency1');
+  const dependency2 = deps.dependency2 || require('path/to/real/dependency2');
+  
+  // Implement command functions using dependencies
+  async function commandFunction(arg1, arg2, options) {
+    // Implementation using dependencies
+  }
+  
+  // Return object with all command functions
+  return { 
+    commandFunction,
+    // Add other functions as needed
+  };
+}
+
+module.exports = { createCommandFunctions };
+```
+
+Then in the main command file:
+
+```javascript
+// Main command.js file
+const { createCommandFunctions } = require('./command-factory');
+
+// Create command with default dependencies
+const { commandFunction } = createCommandFunctions();
+
+// Export for CLI use
+module.exports = { commandFunction };
+```
+
+### Testing with the Factory Pattern
+
+When testing, we create the command with mock dependencies:
+
+```javascript
+// Test file
+const { createCommandFunctions } = require('../src/command-factory');
+
+// Create mock dependencies
+const mockDependency1 = { method: jest.fn() };
+const mockDependency2 = { otherMethod: jest.fn() };
+
+// Create command with mocks
+const { commandFunction } = createCommandFunctions({
+  dependency1: mockDependency1,
+  dependency2: mockDependency2
+});
+
+test('should call dependency methods', async () => {
+  await commandFunction('arg1', 'arg2', {});
+  expect(mockDependency1.method).toHaveBeenCalled();
+});
+```
+
+We've applied this pattern to `config.js`, `prompt.js`, and `module.js` commands with excellent results for testability.
 
 ## Improving Test Coverage
 

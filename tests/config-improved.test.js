@@ -1,5 +1,5 @@
 /**
- * Tests for the config CLI command
+ * Improved tests for the config CLI command using dependency injection
  */
 
 const inquirer = require('inquirer');
@@ -21,7 +21,7 @@ jest.mock('chalk', () => ({
   bold: jest.fn(text => text)
 }));
 
-// Import the factory function from the module
+// Import the factory function from our new module
 const { createConfigCommands } = require('../src/cli/commands/config-factory');
 
 // Create mock functions for all dependencies
@@ -36,27 +36,27 @@ const mockConfigManager = {
 // Create our commands with injected mocks
 const { configCmd } = createConfigCommands({ configManager: mockConfigManager });
 
-describe('config command', () => {
+// Setup mock data
+const mockConfig = {
+  'project.name': 'test-project',
+  'project.root': '/test/path',
+  'project.excludes': ['node_modules', 'dist', '.git', 'build'],
+  'context.defaultLevel': 'medium',
+  'context.tokenBudget': 4000,
+  'versioning.enabled': true,
+  'versioning.gitIntegration': false
+};
+
+// Test suite
+describe('config command (improved tests)', () => {
   beforeEach(() => {
     // Clear all mock function calls before each test
     jest.clearAllMocks();
     
     // Setup default mock behavior
-    mockConfigManager.getAllValues.mockResolvedValue({
-      'project.name': 'test-project',
-      'project.root': '/test/path',
-      'context.defaultLevel': 'medium',
-      'context.tokenBudget': 4000
-    });
-    
+    mockConfigManager.getAllValues.mockResolvedValue(mockConfig);
     mockConfigManager.getValue.mockImplementation(async (key) => {
-      const values = {
-        'project.name': 'test-project',
-        'project.root': '/test/path',
-        'context.defaultLevel': 'medium',
-        'context.tokenBudget': 4000
-      };
-      return values[key];
+      return mockConfig[key];
     });
     
     // Set up console output capture
@@ -98,6 +98,8 @@ describe('config command', () => {
       
       expect(mockConfigManager.getAllValues).toHaveBeenCalled();
       expectOutputToContain('Current PairCoder Configuration');
+      expectOutputToContain('project');
+      expectOutputToContain('context');
     });
     
     it('should display specific config when key is provided', async () => {
@@ -117,13 +119,48 @@ describe('config command', () => {
       
       const { configCmd: errorConfigCmd } = createConfigCommands({ configManager: errorMockConfigManager });
       
-      try {
-        await errorConfigCmd('get', 'project.name');
-      } catch (error) {
-        // Process.exit was called
-      }
+      await errorConfigCmd('get', 'project.name');
       
       expectOutputToContain('Error getting configuration', 'error');
+    });
+    
+    it('should format different value types correctly', async () => {
+      // Setup mock getValue to return different types
+      const valueTypesMockConfigManager = {
+        getValue: jest.fn()
+          .mockResolvedValueOnce('string-value')
+          .mockResolvedValueOnce(true)
+          .mockResolvedValueOnce(false)
+          .mockResolvedValueOnce(null)
+          .mockResolvedValueOnce({ key: 'value' })
+          .mockResolvedValueOnce([1, 2, 3])
+      };
+      
+      const { configCmd: valueTypesConfigCmd } = createConfigCommands({ configManager: valueTypesMockConfigManager });
+      
+      // Test string value
+      await valueTypesConfigCmd('get', 'test.string');
+      expectOutputToContain('string-value');
+      
+      // Test boolean true
+      await valueTypesConfigCmd('get', 'test.boolTrue');
+      expectOutputToContain('true');
+      
+      // Test boolean false
+      await valueTypesConfigCmd('get', 'test.boolFalse');
+      expectOutputToContain('false');
+      
+      // Test null value
+      await valueTypesConfigCmd('get', 'test.null');
+      expectOutputToContain('not set');
+      
+      // Test object value
+      await valueTypesConfigCmd('get', 'test.object');
+      expectOutputToContain('{"key":"value"}');
+      
+      // Test array value
+      await valueTypesConfigCmd('get', 'test.array');
+      expectOutputToContain('[1,2,3]');
     });
   });
   
@@ -143,7 +180,7 @@ describe('config command', () => {
       await configCmd('set', 'project.name');
       
       expect(inquirer.prompt).toHaveBeenCalled();
-      expect(mockConfigManager.setValue).toHaveBeenCalled();
+      expect(mockConfigManager.setValue).toHaveBeenCalledWith('project.name', 'prompted-value');
       expectOutputToContain('Configuration updated successfully');
     });
     
@@ -153,6 +190,31 @@ describe('config command', () => {
       expect(mockConfigManager.setValue).toHaveBeenCalledWith(
         'project.excludes', 
         ['node_modules', 'dist']
+      );
+    });
+    
+    it('should parse numeric values correctly', async () => {
+      await configCmd('set', 'context.tokenBudget', '5000');
+      
+      expect(mockConfigManager.setValue).toHaveBeenCalledWith(
+        'context.tokenBudget', 
+        5000
+      );
+    });
+    
+    it('should parse boolean values correctly', async () => {
+      await configCmd('set', 'versioning.enabled', 'true');
+      
+      expect(mockConfigManager.setValue).toHaveBeenCalledWith(
+        'versioning.enabled', 
+        true
+      );
+      
+      await configCmd('set', 'versioning.gitIntegration', 'false');
+      
+      expect(mockConfigManager.setValue).toHaveBeenCalledWith(
+        'versioning.gitIntegration', 
+        false
       );
     });
     
@@ -171,24 +233,17 @@ describe('config command', () => {
       
       const { configCmd: errorConfigCmd } = createConfigCommands({ configManager: errorMockConfigManager });
       
-      try {
-        await errorConfigCmd('set', 'project.name', 'new-project');
-      } catch (error) {
-        // Process.exit was called
-      }
+      await errorConfigCmd('set', 'project.name', 'new-project');
       
       expectOutputToContain('Error setting configuration', 'error');
     });
     
     it('should require a key when setting', async () => {
-      try {
-        await configCmd('set');
-      } catch (error) {
-        // Process.exit was called
-      }
+      await configCmd('set');
       
       expect(mockConfigManager.setValue).not.toHaveBeenCalled();
       expectOutputToContain('Error: Key is required', 'error');
+      expect(process.exit).toHaveBeenCalledWith(1);
     });
   });
   
@@ -220,20 +275,30 @@ describe('config command', () => {
       expectOutputToContain('Reset cancelled');
     });
     
-    it('should handle errors during reset', async () => {
+    it('should handle errors during reset of specific key', async () => {
       // Create a command with custom mock that throws an error
       const errorMockConfigManager = {
-        resetValue: jest.fn().mockRejectedValue(new Error('Test error')),
-        resetAll: jest.fn().mockRejectedValue(new Error('Test error'))
+        resetValue: jest.fn().mockRejectedValue(new Error('Test error'))
       };
       
       const { configCmd: errorConfigCmd } = createConfigCommands({ configManager: errorMockConfigManager });
       
-      try {
-        await errorConfigCmd('reset', 'project.name');
-      } catch (error) {
-        // Process.exit was called
-      }
+      await errorConfigCmd('reset', 'project.name');
+      
+      expectOutputToContain('Error resetting configuration', 'error');
+    });
+    
+    it('should handle errors during reset of all config', async () => {
+      // Create a command with custom mock that throws an error
+      const errorMockConfigManager = {
+        resetAll: jest.fn().mockRejectedValue(new Error('Test error'))
+      };
+      
+      inquirer.prompt.mockResolvedValueOnce({ confirmReset: true });
+      
+      const { configCmd: errorConfigCmd } = createConfigCommands({ configManager: errorMockConfigManager });
+      
+      await errorConfigCmd('reset');
       
       expectOutputToContain('Error resetting configuration', 'error');
     });
@@ -242,6 +307,13 @@ describe('config command', () => {
   describe('default action', () => {
     it('should default to showing all config when no action is provided', async () => {
       await configCmd();
+      
+      expect(mockConfigManager.getAllValues).toHaveBeenCalled();
+      expectOutputToContain('Current PairCoder Configuration');
+    });
+    
+    it('should default to showing all config when unknown action is provided', async () => {
+      await configCmd('unknown-action');
       
       expect(mockConfigManager.getAllValues).toHaveBeenCalled();
       expectOutputToContain('Current PairCoder Configuration');

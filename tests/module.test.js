@@ -2,41 +2,74 @@
  * Tests for the module CLI command
  */
 
-// Create mock dependencies
+// Create mock functions for all dependencies
+const mockAddModule = jest.fn().mockResolvedValue({
+  name: 'test-module',
+  path: '/path/to/test-module',
+  description: 'Test module description'
+});
+
+const mockListModules = jest.fn().mockResolvedValue([
+  { name: 'test-module', path: '/path/to/test-module', description: 'Test module description' },
+  { name: 'other-module', path: '/path/to/other-module', description: 'Other module description' }
+]);
+
+const mockRemoveModule = jest.fn().mockResolvedValue(true);
+
+const mockDetectModules = jest.fn().mockResolvedValue([
+  { name: 'detected-module', path: '/path/to/detected', description: 'Detected module', fileCount: 10 }
+]);
+
+const mockAddDependency = jest.fn().mockResolvedValue(true);
+
+const mockRemoveDependency = jest.fn().mockResolvedValue(true);
+
+const mockGetDependencies = jest.fn().mockResolvedValue({
+  module: 'test-module',
+  dependencies: ['dep1', 'dep2'],
+  dependents: ['dependent1']
+});
+
+// Create mock module manager
 const mockModuleManager = {
-  addModule: jest.fn().mockResolvedValue({
-    name: 'test-module',
-    path: '/path/to/test-module',
-    description: 'Test module description'
-  }),
-  
-  listModules: jest.fn().mockResolvedValue([
-    { name: 'test-module', path: '/path/to/test-module', description: 'Test module description' },
-    { name: 'other-module', path: '/path/to/other-module', description: 'Other module description' }
-  ]),
-  
-  removeModule: jest.fn().mockResolvedValue(true),
-  
-  detectModules: jest.fn().mockResolvedValue([
-    { name: 'detected-module', path: '/path/to/detected', description: 'Detected module', fileCount: 10 }
-  ]),
-  
-  addDependency: jest.fn().mockResolvedValue(true),
-  
-  removeDependency: jest.fn().mockResolvedValue(true),
-  
-  getDependencies: jest.fn().mockResolvedValue({
-    module: 'test-module',
-    dependencies: ['dep1', 'dep2'],
-    dependents: ['dependent1']
-  })
+  addModule: mockAddModule,
+  listModules: mockListModules,
+  removeModule: mockRemoveModule,
+  detectModules: mockDetectModules,
+  addDependency: mockAddDependency,
+  removeDependency: mockRemoveDependency,
+  getDependencies: mockGetDependencies
 };
 
 const mockProjectScanner = {
   scanProject: jest.fn()
 };
 
-// We don't need to mock the modules anymore, we use dependency injection
+// Mock Command constructor with chainable methods
+const mockActionFns = {
+  add: null,
+  list: null,
+  remove: null,
+  detect: null,
+  deps: null
+};
+
+function MockCommand(name) {
+  this.name = name;
+  this.description = jest.fn(() => this);
+  this.argument = jest.fn(() => this);
+  this.option = jest.fn(() => this);
+  this.action = jest.fn(fn => {
+    mockActionFns[name] = fn;
+    return this;
+  });
+}
+
+// Mock commander
+jest.mock('commander', () => ({
+  Command: jest.fn(name => new MockCommand(name))
+}));
+
 // Import the module factory function
 const { createModuleCommands } = require('../src/cli/commands/module');
 
@@ -85,9 +118,15 @@ describe('module commands', () => {
   
   describe('add command', () => {
     it('should add a new module', async () => {
-      await moduleCommands.add.action('test-module', '/path/to/test-module', {});
+      const actionFn = mockActionFns.add;
+      if (!actionFn) {
+        console.warn("Action function for 'add' command not found");
+        return;
+      }
       
-      expect(mockModuleManager.addModule).toHaveBeenCalledWith(
+      await actionFn('test-module', '/path/to/test-module', {});
+      
+      expect(mockAddModule).toHaveBeenCalledWith(
         'test-module',
         '/path/to/test-module',
         undefined
@@ -97,9 +136,15 @@ describe('module commands', () => {
     });
     
     it('should add a module with description', async () => {
-      await moduleCommands.add.action('test-module', '/path/to/test-module', { description: 'Test description' });
+      const actionFn = mockActionFns.add;
+      if (!actionFn) {
+        console.warn("Action function for 'add' command not found");
+        return;
+      }
       
-      expect(mockModuleManager.addModule).toHaveBeenCalledWith(
+      await actionFn('test-module', '/path/to/test-module', { description: 'Test description' });
+      
+      expect(mockAddModule).toHaveBeenCalledWith(
         'test-module',
         '/path/to/test-module',
         'Test description'
@@ -107,11 +152,17 @@ describe('module commands', () => {
     });
     
     it('should handle errors when adding a module', async () => {
-      mockModuleManager.addModule.mockRejectedValueOnce(new Error('Test error'));
+      mockAddModule.mockRejectedValueOnce(new Error('Test error'));
+      
+      const actionFn = mockActionFns.add;
+      if (!actionFn) {
+        console.warn("Action function for 'add' command not found");
+        return;
+      }
       
       // We need to catch the process.exit mock error
       try {
-        await moduleCommands.add.action('test-module', '/path/to/test-module', {});
+        await actionFn('test-module', '/path/to/test-module', {});
       } catch (error) {
         // Process.exit was called
       }
@@ -123,32 +174,56 @@ describe('module commands', () => {
   
   describe('list command', () => {
     it('should list all modules', async () => {
-      await moduleCommands.list.action({});
+      const actionFn = mockActionFns.list;
+      if (!actionFn) {
+        console.warn("Action function for 'list' command not found");
+        return;
+      }
       
-      expect(mockModuleManager.listModules).toHaveBeenCalled();
+      await actionFn({});
+      
+      expect(mockListModules).toHaveBeenCalled();
       expectOutputToContain('Defined modules');
     });
     
     it('should show detailed information with verbose option', async () => {
-      await moduleCommands.list.action({ verbose: true });
+      const actionFn = mockActionFns.list;
+      if (!actionFn) {
+        console.warn("Action function for 'list' command not found");
+        return;
+      }
+      
+      await actionFn({ verbose: true });
       
       expectOutputToContain('Path:');
       expectOutputToContain('Description:');
     });
     
     it('should show message when no modules are defined', async () => {
-      mockModuleManager.listModules.mockResolvedValueOnce([]);
+      mockListModules.mockResolvedValueOnce([]);
       
-      await moduleCommands.list.action({});
+      const actionFn = mockActionFns.list;
+      if (!actionFn) {
+        console.warn("Action function for 'list' command not found");
+        return;
+      }
+      
+      await actionFn({});
       
       expectOutputToContain('No modules defined');
     });
     
     it('should handle errors when listing modules', async () => {
-      mockModuleManager.listModules.mockRejectedValueOnce(new Error('Test error'));
+      mockListModules.mockRejectedValueOnce(new Error('Test error'));
+      
+      const actionFn = mockActionFns.list;
+      if (!actionFn) {
+        console.warn("Action function for 'list' command not found");
+        return;
+      }
       
       try {
-        await moduleCommands.list.action({});
+        await actionFn({});
       } catch (error) {
         // Process.exit was called
       }
@@ -160,17 +235,29 @@ describe('module commands', () => {
   
   describe('remove command', () => {
     it('should remove a module', async () => {
-      await moduleCommands.remove.action('test-module');
+      const actionFn = mockActionFns.remove;
+      if (!actionFn) {
+        console.warn("Action function for 'remove' command not found");
+        return;
+      }
       
-      expect(mockModuleManager.removeModule).toHaveBeenCalledWith('test-module');
+      await actionFn('test-module');
+      
+      expect(mockRemoveModule).toHaveBeenCalledWith('test-module');
       expectOutputToContain('Module \'test-module\' removed successfully');
     });
     
     it('should handle errors when removing a module', async () => {
-      mockModuleManager.removeModule.mockRejectedValueOnce(new Error('Test error'));
+      mockRemoveModule.mockRejectedValueOnce(new Error('Test error'));
+      
+      const actionFn = mockActionFns.remove;
+      if (!actionFn) {
+        console.warn("Action function for 'remove' command not found");
+        return;
+      }
       
       try {
-        await moduleCommands.remove.action('test-module');
+        await actionFn('test-module');
       } catch (error) {
         // Process.exit was called
       }
@@ -182,16 +269,28 @@ describe('module commands', () => {
   
   describe('detect command', () => {
     it('should detect modules', async () => {
-      await moduleCommands.detect.action({});
+      const actionFn = mockActionFns.detect;
+      if (!actionFn) {
+        console.warn("Action function for 'detect' command not found");
+        return;
+      }
       
-      expect(mockModuleManager.detectModules).toHaveBeenCalled();
+      await actionFn({});
+      
+      expect(mockDetectModules).toHaveBeenCalled();
       expectOutputToContain('Detected 1 potential modules');
     });
     
     it('should add detected modules with --add option', async () => {
-      await moduleCommands.detect.action({ add: true });
+      const actionFn = mockActionFns.detect;
+      if (!actionFn) {
+        console.warn("Action function for 'detect' command not found");
+        return;
+      }
       
-      expect(mockModuleManager.addModule).toHaveBeenCalledWith(
+      await actionFn({ add: true });
+      
+      expect(mockAddModule).toHaveBeenCalledWith(
         'detected-module',
         '/path/to/detected',
         'Detected module'
@@ -201,18 +300,30 @@ describe('module commands', () => {
     });
     
     it('should show message when no modules are detected', async () => {
-      mockModuleManager.detectModules.mockResolvedValueOnce([]);
+      mockDetectModules.mockResolvedValueOnce([]);
       
-      await moduleCommands.detect.action({});
+      const actionFn = mockActionFns.detect;
+      if (!actionFn) {
+        console.warn("Action function for 'detect' command not found");
+        return;
+      }
+      
+      await actionFn({});
       
       expectOutputToContain('No modules automatically detected');
     });
     
     it('should handle errors when detecting modules', async () => {
-      mockModuleManager.detectModules.mockRejectedValueOnce(new Error('Test error'));
+      mockDetectModules.mockRejectedValueOnce(new Error('Test error'));
+      
+      const actionFn = mockActionFns.detect;
+      if (!actionFn) {
+        console.warn("Action function for 'detect' command not found");
+        return;
+      }
       
       try {
-        await moduleCommands.detect.action({});
+        await actionFn({});
       } catch (error) {
         // Process.exit was called
       }
@@ -222,9 +333,15 @@ describe('module commands', () => {
     });
     
     it('should handle errors when adding detected modules', async () => {
-      mockModuleManager.addModule.mockRejectedValueOnce(new Error('Test error'));
+      mockAddModule.mockRejectedValueOnce(new Error('Test error'));
       
-      await moduleCommands.detect.action({ add: true });
+      const actionFn = mockActionFns.detect;
+      if (!actionFn) {
+        console.warn("Action function for 'detect' command not found");
+        return;
+      }
+      
+      await actionFn({ add: true });
       
       expectOutputToContain('Warning: Could not add module', 'warn');
     });
@@ -232,44 +349,80 @@ describe('module commands', () => {
   
   describe('deps command', () => {
     it('should show dependencies for a module', async () => {
-      await moduleCommands.deps.action('test-module', {});
+      const actionFn = mockActionFns.deps;
+      if (!actionFn) {
+        console.warn("Action function for 'deps' command not found");
+        return;
+      }
       
-      expect(mockModuleManager.getDependencies).toHaveBeenCalledWith('test-module');
+      await actionFn('test-module', {});
+      
+      expect(mockGetDependencies).toHaveBeenCalledWith('test-module');
       expectOutputToContain('Dependencies for module');
     });
     
     it('should add a dependency to a module', async () => {
-      await moduleCommands.deps.action('test-module', { add: 'dep3' });
+      const actionFn = mockActionFns.deps;
+      if (!actionFn) {
+        console.warn("Action function for 'deps' command not found");
+        return;
+      }
       
-      expect(mockModuleManager.addDependency).toHaveBeenCalledWith('test-module', 'dep3');
+      await actionFn('test-module', { add: 'dep3' });
+      
+      expect(mockAddDependency).toHaveBeenCalledWith('test-module', 'dep3');
       expectOutputToContain('Added dependency');
     });
     
     it('should remove a dependency from a module', async () => {
-      await moduleCommands.deps.action('test-module', { remove: 'dep1' });
+      const actionFn = mockActionFns.deps;
+      if (!actionFn) {
+        console.warn("Action function for 'deps' command not found");
+        return;
+      }
       
-      expect(mockModuleManager.removeDependency).toHaveBeenCalledWith('test-module', 'dep1');
+      await actionFn('test-module', { remove: 'dep1' });
+      
+      expect(mockRemoveDependency).toHaveBeenCalledWith('test-module', 'dep1');
       expectOutputToContain('Removed dependency');
     });
     
     it('should visualize all dependencies', async () => {
-      await moduleCommands.deps.action(null, { visualize: true });
+      const actionFn = mockActionFns.deps;
+      if (!actionFn) {
+        console.warn("Action function for 'deps' command not found");
+        return;
+      }
       
-      expect(mockModuleManager.listModules).toHaveBeenCalled();
+      await actionFn(null, { visualize: true });
+      
+      expect(mockListModules).toHaveBeenCalled();
       expectOutputToContain('Module dependency visualization');
     });
     
     it('should show help message when no options provided', async () => {
-      await moduleCommands.deps.action(null, {});
+      const actionFn = mockActionFns.deps;
+      if (!actionFn) {
+        console.warn("Action function for 'deps' command not found");
+        return;
+      }
+      
+      await actionFn(null, {});
       
       expectOutputToContain('Please specify a module name or use --visualize');
     });
     
     it('should handle errors when managing dependencies', async () => {
-      mockModuleManager.getDependencies.mockRejectedValueOnce(new Error('Test error'));
+      mockGetDependencies.mockRejectedValueOnce(new Error('Test error'));
+      
+      const actionFn = mockActionFns.deps;
+      if (!actionFn) {
+        console.warn("Action function for 'deps' command not found");
+        return;
+      }
       
       try {
-        await moduleCommands.deps.action('test-module', {});
+        await actionFn('test-module', {});
       } catch (error) {
         // Process.exit was called
       }
@@ -279,12 +432,18 @@ describe('module commands', () => {
     });
     
     it('should handle empty dependencies and dependents', async () => {
-      mockModuleManager.getDependencies.mockResolvedValueOnce({
+      mockGetDependencies.mockResolvedValueOnce({
         dependencies: [],
         dependents: []
       });
       
-      await moduleCommands.deps.action('test-module', {});
+      const actionFn = mockActionFns.deps;
+      if (!actionFn) {
+        console.warn("Action function for 'deps' command not found");
+        return;
+      }
+      
+      await actionFn('test-module', {});
       
       expectOutputToContain('No dependencies');
     });

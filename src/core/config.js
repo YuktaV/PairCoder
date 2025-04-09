@@ -39,6 +39,18 @@ class ConfigManager {
   }
 
   /**
+   * Initialize the configuration manager
+   * 
+   * @returns {Promise<void>}
+   */
+  async initialize() {
+    if (!this.config) {
+      await this.getConfig();
+    }
+    return this;
+  }
+
+  /**
    * Get the current configuration
    * 
    * @returns {Promise<Object>} The configuration object
@@ -141,13 +153,56 @@ class ConfigManager {
   }
 
   /**
-   * Reset configuration to defaults
+   * Delete a configuration value
+   * 
+   * @param {string} key Dot-notation path to the configuration value
+   * @returns {Promise<boolean>} Success status
+   */
+  async deleteValue(key) {
+    const config = await this.getConfig();
+    
+    // Check if key exists
+    if (_.get(config, key) === undefined) {
+      throw new Error(`Key '${key}' not found`);
+    }
+    
+    // Use _.unset to remove the property
+    _.unset(config, key);
+    await this.saveConfig(config);
+    return true;
+  }
+
+  /**
+   * Reset a specific configuration value to its default
+   * 
+   * @param {string} key Dot-notation path to the configuration value
+   * @returns {Promise<void>}
+   */
+  async resetValue(key) {
+    const defaultValue = _.get(DEFAULT_CONFIG, key);
+    if (defaultValue === undefined) {
+      throw new Error(`No default value exists for key '${key}'`);
+    }
+    await this.setValue(key, _.cloneDeep(defaultValue));
+  }
+
+  /**
+   * Reset all configuration to defaults
+   * 
+   * @returns {Promise<void>}
+   */
+  async resetAll() {
+    this.config = _.cloneDeep(DEFAULT_CONFIG);
+    await this.saveConfig(this.config);
+  }
+
+  /**
+   * Reset configuration to defaults (legacy method, use resetAll instead)
    * 
    * @returns {Promise<void>}
    */
   async resetConfig() {
-    this.config = _.cloneDeep(DEFAULT_CONFIG);
-    await this.saveConfig(this.config);
+    return this.resetAll();
   }
   
   /**

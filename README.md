@@ -1,32 +1,22 @@
-# PairCoder
+Overview
+PairCoder (pc) is a revolutionary Model Context Protocol (MCP) server designed to optimize workflows between developers and AI assistants like Claude. It intelligently manages project context, tracks changes, and provides precise information extraction.
+Key Features
 
-A Model Context Protocol server for efficient AI-assisted development.
+Intelligent Context Management: Focus on specific project modules
+Smart Code Summarization: Generate context at multiple detail levels
+Version Tracking: Capture and restore project states
+Structured Communication: Standardize AI collaboration
+Token Optimization: Minimize token usage while maximizing information
+Claude Integration: Seamless AI assistant workflow
 
-## Overview
-
-PairCoder (`pc`) is a tool designed to optimize workflows between developers and AI assistants like Claude by intelligently managing project context, tracking changes, and providing just the right amount of information when needed.
-
-## Key Features
-
-- **Module-Based Context Management**: Focus on specific parts of your project
-- **Smart Code Summarization**: Multiple levels of detail for efficient token usage
-- **Version Tracking**: Capture and restore project states
-- **Structured Communication**: Templates for effective AI collaboration
-- **Token Optimization**: Minimize token usage while maximizing information
-- **Claude Integration**: MCP server for direct integration with Claude
-
-## Installation
-
-```bash
+Installation
+bash# Global installation
 npm install -g paircoder
-# or
+
+# Or use npx for one-time initialization
 npx paircoder init
-```
-
-## Quick Start
-
-```bash
-# Initialize in project folder
+Quick Start
+bash# Initialize in project folder
 pc init
 
 # Define module boundaries
@@ -40,33 +30,49 @@ pc focus auth
 
 # Start MCP server for Claude integration
 pc serve
-```
+Documentation
 
-## Documentation
+Claude Integration Guide
+Testing Guide
 
-See the `docs` folder for detailed documentation and use cases.
+Requirements
 
-For Claude integration, see [CLAUDE_INTEGRATION.md](docs/CLAUDE_INTEGRATION.md).
+Node.js v16.0.0+
+npm v8.0.0+
 
-## Development and Testing
+Configuration
+Create a .paircoder.json in your project root:
+json{
+  "modules": {
+    "default": ["src"],
+    "custom": {
+      "auth": ["src/auth"],
+      "api": ["src/api"]
+    }
+  },
+  "generation": {
+    "defaultDetail": "standard",
+    "tokenLimit": 4000
+  }
+}
+Contributing
+We welcome contributions! Please see our contribution guidelines for more information.
 
-### Running Tests
+Fork the repository
+Create your feature branch (git checkout -b feature/amazing-feature)
+Commit your changes (git commit -m 'Add some amazing feature')
+Push to the branch (git push origin feature/amazing-feature)
+Open a Pull Request
 
-We've provided a helper script to make it easier to run specific test groups:
-
-```bash
-# Run all tests known to pass
+Testing
+bash# Run all passing tests
 node run-tests.js working
 
-# Run tests with some passing and some failing tests
-node run-tests.js partial
+# Run specific test groups
+node run-tests.js focus prompt
+License
+Distributed under the MIT License. See LICENSE for more information.
 
-# Run specific test patterns
-node run-tests.js focus prompt passing
-```
-
-For more detailed information, see [TESTING_GUIDE.md](TESTING_GUIDE.md).
-
-### Contributing
-
-We welcome contributions! Please see our [development guidelines](docs/DEVELOPMENT.md) for more information.
+Contact
+Project Link: https://github.com/YuktaV/paircoder
+Email : vasanthan.m [at] icloud.com 

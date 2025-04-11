@@ -1,95 +1,93 @@
-# PairCoder CLI Testing Guide
+PairCoder Testing Guide
+Overview
+Our testing framework is designed to ensure the reliability and performance of PairCoder across different scenarios and use cases.
+Test Categories
+1. Core Functionality Tests
 
-This document provides guidance on how to run and debug tests for the PairCoder CLI.
+Module initialization
+Context generation
+Configuration parsing
+Server startup
 
-## Test Structure
+2. Integration Tests
 
-The tests are organized into:
+Claude API integration
+Different IDE/environment compatibility
+Cross-platform support
 
-- **Unit tests**: Testing individual components
-- **Integration tests**: Testing multiple components working together
-- **Snapshot tests**: Verifying CLI output against saved snapshots
+3. Performance Tests
 
-## Running Tests
+Context generation speed
+Memory usage
+Token optimization efficiency
 
-We've provided a helper script `run-tests.js` to make it easier to run specific groups of tests.
-
-### Running Working Tests
-
-To run only the tests that are known to pass:
-
-```bash
+Running Tests
+Test Runner Usage
+bash# Run all tests known to pass
 node run-tests.js working
-```
 
-This will run tests in:
-- `tests/config.test.js`
-- `tests/snapshot.test.js`
-
-### Running Partially Working Tests
-
-To run tests that have some passing and some failing tests:
-
-```bash
+# Run tests with mixed pass/fail status
 node run-tests.js partial
-```
 
-This will run tests in:
-- `tests/prompt.test.js`
-- `tests/exclude.test.js`
-
-### Running Failing Tests
-
-To run tests that are currently failing and need fixes:
-
-```bash
-node run-tests.js failing
-```
-
-This will run tests in:
-- `tests/export.test.js`
-- `tests/integration/command-chains.test.js`
-
-### Running All Tests
-
-To run all tests:
-
-```bash
-node run-tests.js all
-```
-
-### Running Focused Tests
-
-To focus on specific tests for debugging:
-
-```bash
+# Run specific test patterns
 node run-tests.js focus prompt passing
-node run-tests.js focus prompt failing
-node run-tests.js focus exclude passing
-node run-tests.js focus exclude failing
-```
+Test Configuration
+Configure test runs in tests/config.json:
+json{
+  "testGroups": {
+    "core": ["init", "generate", "serve"],
+    "integration": ["claude", "vscode", "jetbrains"],
+    "performance": ["token-usage", "context-generation"]
+  },
+  "environmentVariables": {
+    "CLAUDE_API_KEY": "${CLAUDE_API_KEY}",
+    "TEST_PROJECT_PATH": "./test-projects"
+  }
+}
+Writing New Tests
+Test File Structure
+Create test files in tests/ directory:
 
-### Updating Snapshots
+test-core.js
+test-integration.js
+test-performance.js
 
-If you need to update snapshots:
+Test Case Template
+javascriptconst assert = require('assert');
+const PairCoder = require('../src/paircoder');
 
-```bash
-node run-tests.js working --update-snapshots
-```
+describe('PairCoder Core Functionality', () => {
+  it('should initialize project module correctly', async () => {
+    const pc = new PairCoder();
+    const result = await pc.initModule('auth');
+    assert.strictEqual(result.status, 'success');
+  });
+});
+Test Coverage
 
-## Known Issues
+Aim for >90% code coverage
+Test both happy paths and edge cases
+Mock external dependencies (Claude API, file system)
 
-1. **Mock Issues**: Some tests fail because mocks for `inquirer.prompt` and other functions aren't being properly registered.
+Continuous Integration
 
-2. **Missing Commands**: Integration tests fail because some CLI commands (scan, create) aren't properly implemented or registered.
+GitHub Actions configured for automated testing
+Tests run on every pull request
+Coverage reports generated automatically
 
-3. **Missing Implementations**: Some required methods like `configManager.getAllValues` are missing.
+Debugging Tests
 
-4. **Process Exit Handling**: The export command tests are throwing errors because of `process.exit` calls.
+Use verbose logging
+Isolate failing tests
+Check environment setup
+Verify test data and mocks
 
-## Next Steps for Improving Tests
+Contributing Test Cases
 
-1. Complete implementation of the missing functions and commands
-2. Update mocks to properly handle scenarios being tested
-3. Fix CLI command path issues in integration tests
-4. Update snapshots to match current implementation
+Fork the repository
+Create a new branch
+Add test cases
+Submit a pull request with detailed description
+
+Support
+For test-related issues or improvements, please open an issue on our GitHub repository.

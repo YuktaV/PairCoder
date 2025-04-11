@@ -49,20 +49,83 @@ const mockFs = {
     configManager: mockConfigManager
   });
   
-  // Utility function to access private functions for testing
+  // Utility function to access private functions for testing - IMPROVED VERSION
   const extractPrivateFn = (fn, name) => {
     const fnString = fn.toString();
     const fnBody = fnString.substring(fnString.indexOf('{') + 1, fnString.lastIndexOf('}'));
     
-    // Find function definition in the body
-    const functionRegex = new RegExp(`function\\s+${name}\\s*\\([^)]*\\)\\s*\\{([\\s\\S]*?)\\}\\s*\\n`);
-    const match = fnBody.match(functionRegex);
+    // Try different patterns for function declarations
+    const patterns = [
+      // Regular function declaration
+      new RegExp(`function\\s+${name}\\s*\\(([^)]*)\\)\\s*\\{([\\s\\S]*?)\\}(?:\\s*\\n|$)`, 'g'),
+      // Arrow function with block body
+      new RegExp(`const\\s+${name}\\s*=\\s*\\(([^)]*)\\)\\s*=>\\s*\\{([\\s\\S]*?)\\}`, 'g'),
+      // Variable assigned function
+      new RegExp(`const\\s+${name}\\s*=\\s*function\\s*\\(([^)]*)\\)\\s*\\{([\\s\\S]*?)\\}`, 'g')
+    ];
     
-    if (!match) return null;
+    for (const regex of patterns) {
+      const matches = [...fnBody.matchAll(regex)];
+      if (matches.length > 0) {
+        const match = matches[0];
+        // args should be in group 1, body should be in group 2
+        const args = match[1];
+        const body = match[2];
+        
+        // Create a function from extracted parts
+        return new Function(args.split(',').map(a => a.trim()), body);
+      }
+    }
     
-    // Create and return the function
-    const argNames = fnBody.match(new RegExp(`function\\s+${name}\\s*\\(([^)]*)\\)`))[1];
-    return new Function(argNames.split(',').map(a => a.trim()), match[1]);
+    // Fallback - more flexible approach
+    const lines = fnBody.split('\n');
+    const startPattern = new RegExp(`(function\\s+${name}|const\\s+${name}\\s*=)`);
+    let startIndex = -1;
+    
+    for (let i = 0; i < lines.length; i++) {
+      if (startPattern.test(lines[i])) {
+        startIndex = i;
+        break;
+      }
+    }
+    
+    if (startIndex >= 0) {
+      // Extract args from the function signature
+      const argsMatch = lines[startIndex].match(/\(([^)]*)\)/);
+      const args = argsMatch ? argsMatch[1] : '';
+      
+      // Find the function body
+      let openBraces = 0;
+      let bodyStartIndex = -1;
+      let bodyEndIndex = -1;
+      
+      for (let i = startIndex; i < lines.length; i++) {
+        if (lines[i].includes('{')) {
+          openBraces++;
+          if (bodyStartIndex === -1) bodyStartIndex = i;
+        }
+        
+        if (lines[i].includes('}')) {
+          openBraces--;
+          if (openBraces === 0) {
+            bodyEndIndex = i;
+            break;
+          }
+        }
+      }
+      
+      if (bodyStartIndex !== -1 && bodyEndIndex !== -1) {
+        const body = lines.slice(bodyStartIndex, bodyEndIndex + 1).join('\n');
+        // Extract just the body content by removing outer braces
+        const bodyContent = body.substring(body.indexOf('{') + 1, body.lastIndexOf('}'));
+        
+        return new Function(args.split(',').map(a => a.trim()), bodyContent);
+      }
+    }
+    
+    // Function couldn't be extracted
+    console.warn(`Could not extract function "${name}" from the source`);
+    return () => { throw new Error(`Function "${name}" could not be extracted`); };
   };
   
   // Extract private functions for testing

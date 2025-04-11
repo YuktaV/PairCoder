@@ -133,7 +133,7 @@ describe('prompt.js additional coverage', () => {
       await promptCmd('create', 'blank-template', { force: true });
       
       expect(mockPromptEngine.saveTemplate).toHaveBeenCalledWith('blank-template', expect.any(String));
-      expectOutputToContain('Template created successfully');
+      expectOutputToContain('✓ Template \'blank-template\' created successfully');
     });
     
     it('should handle error when reading from file', async () => {

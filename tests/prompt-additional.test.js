@@ -59,7 +59,10 @@ describe('prompt.js additional tests', () => {
     
     mockFs = {
       pathExists: jest.fn().mockResolvedValue(true),
-      readFile: jest.fn().mockResolvedValue('File content'),
+      readFile: jest.fn().mockImplementation(async (path) => {
+        console.log(`Mock readFile called with: ${path}`);
+        return 'File content';
+      }),
       writeFile: jest.fn().mockResolvedValue(undefined),
       remove: jest.fn().mockResolvedValue(undefined),
       ensureDir: jest.fn().mockResolvedValue(undefined)
@@ -149,7 +152,7 @@ describe('prompt.js additional tests', () => {
       
       expect(mockPromptEngine.getTemplateContent).toHaveBeenCalledWith('default');
       expect(mockPromptEngine.saveTemplate).toHaveBeenCalledWith('new-template', expect.any(String));
-      expectOutputToContain('Template \'new-template\' created successfully');
+      expectOutputToContain('✓ Template \'new-template\' created successfully');
     });
     
     it('should create a template from a file', async () => {
@@ -158,9 +161,12 @@ describe('prompt.js additional tests', () => {
       
       // Set up specific implementation for this test
       mockFs.readFile.mockImplementation((path, options) => {
+        console.log(`Mock readFile called with path: ${path}`);
         if (path === 'template.txt' || path.includes('template.txt')) {
+          console.log('Returning file template content');
           return Promise.resolve('File template content');
         }
+        console.log(`File not found: ${path}`);
         return Promise.reject(new Error(`File not found: ${path}`));
       });
       
@@ -168,10 +174,11 @@ describe('prompt.js additional tests', () => {
       
       // Verify the mock was called with the correct path
       expect(mockFs.readFile).toHaveBeenCalled();
+      console.log('mockFs.readFile calls:', mockFs.readFile.mock.calls);
       expect(mockFs.readFile.mock.calls[0][0]).toContain('template.txt');
       
       expect(mockPromptEngine.saveTemplate).toHaveBeenCalledWith('file-template', expect.any(String));
-      expectOutputToContain('Template \'file-template\' created successfully');
+      expectOutputToContain('✓ Template \'file-template\' created successfully');
     });
   });
 });

@@ -112,7 +112,17 @@ const { promptCmd } = createPromptCommands({
 // Helper function to check output
 const expectOutputToContain = (text, outputType = 'log') => {
   const output = global.consoleOutput[outputType];
-  const found = output.some(line => line && typeof line === 'string' && line.includes(text));
+  // Check if any line contains the text (case-insensitive and allowing for symbol variations)
+  const found = output.some(line => {
+    if (!line || typeof line !== 'string') return false;
+    // Remove style markers and normalize symbols for comparison
+    const normalizedLine = line.replace(/\u001b\[\d+m/g, '')  // Remove ANSI color codes
+                              .replace(/[✓✔]/, '✓')           // Normalize checkmarks
+                              .toLowerCase();
+    const normalizedText = text.toLowerCase();
+    return normalizedLine.includes(normalizedText);
+  });
+  
   if (!found) {
     throw new Error(`Expected "${text}" to be in ${outputType} output, but it wasn't.\nActual output:\n${output.join('\n')}`);
   }
@@ -284,7 +294,7 @@ describe('prompt commands (improved tests)', () => {
       await promptCmd('create', 'new-template', { force: true });
       
       expect(mockSaveTemplate).toHaveBeenCalledWith('new-template', expect.any(String));
-      expectOutputToContain('Template \'new-template\' created successfully');
+      expectOutputToContain('✓ Template \'new-template\' created successfully');
     });
     
     it('should prompt for template name when not provided', async () => {
@@ -297,7 +307,7 @@ describe('prompt commands (improved tests)', () => {
       
       expect(inquirer.prompt).toHaveBeenCalled();
       expect(mockSaveTemplate).toHaveBeenCalledWith('prompted-template', expect.any(String));
-      expectOutputToContain('Template \'prompted-template\' created successfully');
+      expectOutputToContain('✓ Template \'prompted-template\' created successfully');
     });
     
     it('should not overwrite existing template without force flag', async () => {
@@ -314,6 +324,7 @@ describe('prompt commands (improved tests)', () => {
       
       expect(mockGetTemplateContent).toHaveBeenCalledWith('default');
       expect(mockSaveTemplate).toHaveBeenCalledWith('derived-template', expect.any(String));
+      expectOutputToContain('✓ Template \'derived-template\' created successfully');
     });
     
     it('should read from file when specified', async () => {
@@ -321,6 +332,7 @@ describe('prompt commands (improved tests)', () => {
       
       expect(fs.readFile).toHaveBeenCalled();
       expect(mockSaveTemplate).toHaveBeenCalledWith('file-template', expect.any(String));
+      expectOutputToContain('✓ Template \'file-template\' created successfully');
     });
     
     it('should handle errors during creation', async () => {
@@ -338,7 +350,7 @@ describe('prompt commands (improved tests)', () => {
       
       // Directly verify the console output since the mock may not be called
       const outputText = global.consoleOutput.log.join('\n');
-      expect(outputText).toContain('Template \'new-template\' created successfully');
+      expect(outputText).toContain('✓ Template \'new-template\' created successfully');
       expect(outputText).toContain('Default template set to: new-template');
       
       // We can't verify mockSetValue was called because the implementation

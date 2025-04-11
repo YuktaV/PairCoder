@@ -4,7 +4,8 @@
   "description": "Model Context Protocol server for efficient AI-assisted development",
   "main": "src/index.js",
   "bin": {
-    "pc": "bin/pc.js"
+    "pc": "./bin/pc.js",
+    "paircoder": "./bin/pc.js"
   },
   "files": [
     "bin/",

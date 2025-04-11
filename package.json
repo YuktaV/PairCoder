@@ -1,6 +1,6 @@
 {
   "name": "paircoder",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "Model Context Protocol server for efficient AI-assisted development",
   "main": "src/index.js",
   "bin": {

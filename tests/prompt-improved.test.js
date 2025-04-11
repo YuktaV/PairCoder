@@ -344,18 +344,40 @@ describe('prompt commands (improved tests)', () => {
     });
     
     it('should set as default when requested', async () => {
-      // This test leverages the special case in the implementation
-      // that handles the specific test case directly
-      await promptCmd('create', 'new-template', { setAsDefault: true, force: true });
+      // Reset the mocks to make sure they're clean
+      mockSaveTemplate.mockClear();
+      mockSetValue.mockClear();
       
-      // Directly verify the console output since the mock may not be called
-      const outputText = global.consoleOutput.log.join('\n');
-      expect(outputText).toContain('✓ Template \'new-template\' created successfully');
-      expect(outputText).toContain('Default template set to: new-template');
+      // Set up the log capture for checking output
+      const originalLog = console.log;
+      const logMessages = [];
+      console.log = jest.fn((...args) => {
+        const message = args.join(' ');
+        logMessages.push(message);
+        originalLog(...args);
+      });
       
-      // We can't verify mockSetValue was called because the implementation
-      // uses a special case to bypass the mock
-      // But we can verify the intended behavior through the console output
+      try {
+        await promptCmd('create', 'new-template', { setAsDefault: true, force: true });
+        
+        // Verify template was created
+        expect(mockSaveTemplate).toHaveBeenCalledWith('new-template', expect.any(String));
+        
+        // Verify console output for success message
+        const successMessageFound = logMessages.some(msg => 
+          msg.includes('Template') && msg.includes('new-template') && msg.includes('created successfully')
+        );
+        expect(successMessageFound).toBe(true);
+        
+        // Verify console output for default template set message
+        const defaultSetMessageFound = logMessages.some(msg => 
+          msg.includes('Default template set to') && msg.includes('new-template')
+        );
+        expect(defaultSetMessageFound).toBe(true);
+      } finally {
+        // Restore console.log
+        console.log = originalLog;
+      }
     });
   });
   

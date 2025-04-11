@@ -48,24 +48,18 @@ jest.mock('inquirer', () => ({
 }));
 
 describe('init command', () => {
-  // Helper function to check output
+  // Simplified helper function to check output
   const expectOutputToContain = (text, outputType = 'log') => {
     const output = global.consoleOutput[outputType];
-    // Check if any line contains the text (case-insensitive and allowing for symbol variations)
-    const found = output.some(line => {
-      if (!line || typeof line !== 'string') return false;
-      // Remove style markers and normalize symbols for comparison
-      const normalizedLine = line.replace(/\u001b\[\d+m/g, '')  // Remove ANSI color codes
-                                .replace(/[✓✔]/, '✓')           // Normalize checkmarks
-                                .toLowerCase();
-      const normalizedText = text.toLowerCase();
-      return normalizedLine.includes(normalizedText);
-    });
+    const found = output.some(line => 
+      line && typeof line === 'string' && line.toLowerCase().includes(text.toLowerCase())
+    );
     
     if (!found) {
       throw new Error(`Expected "${text}" to be in ${outputType} output, but it wasn't.\nActual output:\n${output.join('\n')}`);
     }
   };
+  
   let originalCwd;
   
   beforeEach(() => {
@@ -80,6 +74,22 @@ describe('init command', () => {
       error: [],
       warn: []
     };
+    
+    // Mock console methods
+    console.log = jest.fn((...args) => {
+      const message = args.join(' ');
+      global.consoleOutput.log.push(message);
+    });
+    
+    console.error = jest.fn((...args) => {
+      const message = args.join(' ');
+      global.consoleOutput.error.push(message);
+    });
+    
+    console.warn = jest.fn((...args) => {
+      const message = args.join(' ');
+      global.consoleOutput.warn.push(message);
+    });
     
     // Mock default inquirer responses
     inquirer.prompt.mockImplementation((questions) => {
@@ -124,9 +134,11 @@ describe('init command', () => {
       expect(projectScanner.scanProject).toHaveBeenCalled();
       expect(projectScanner.detectModules).toHaveBeenCalled();
       
-      expectOutputToContain('Initializing PairCoder');
-      expectOutputToContain('Created basic configuration');
-      expectOutputToContain('PairCoder initialized successfully');
+      // Simple check without using expectOutputToContain
+      const logOutput = global.consoleOutput.log;
+      expect(logOutput.some(msg => msg.includes('Initializing PairCoder'))).toBe(true);
+      expect(logOutput.some(msg => msg.includes('Created basic configuration'))).toBe(true);
+      expect(logOutput.some(msg => msg.includes('PairCoder initialized successfully'))).toBe(true);
     });
     
     it('should include detected modules in configuration', async () => {
@@ -165,7 +177,9 @@ describe('init command', () => {
         })
       );
       
-      expectOutputToContain('Detected 2 potential modules');
+      // Simple check without using expectOutputToContain
+      const logOutput = global.consoleOutput.log;
+      expect(logOutput.some(msg => msg.includes('Detected 2 potential modules'))).toBe(true);
     });
     
     it('should handle case when no modules are detected', async () => {
@@ -173,7 +187,9 @@ describe('init command', () => {
       
       await init({});
       
-      expectOutputToContain('No modules automatically detected');
+      // Simple check without using expectOutputToContain
+      const logOutput = global.consoleOutput.log;
+      expect(logOutput.some(msg => msg.includes('No modules automatically detected'))).toBe(true);
     });
   });
   
@@ -194,8 +210,10 @@ describe('init command', () => {
         ])
       );
       
-      expectOutputToContain('PairCoder already initialized');
-      expectOutputToContain('Initialization cancelled');
+      // Simple check without using expectOutputToContain
+      const logOutput = global.consoleOutput.log;
+      expect(logOutput.some(msg => msg.includes('PairCoder already initialized'))).toBe(true);
+      expect(logOutput.some(msg => msg.includes('Initialization cancelled'))).toBe(true);
     });
     
     it('should reinitialize when user confirms', async () => {
@@ -212,7 +230,10 @@ describe('init command', () => {
       
       expect(storageManager.initializeStorage).toHaveBeenCalled();
       expect(configManager.saveConfig).toHaveBeenCalled();
-      expectOutputToContain('PairCoder initialized successfully');
+      
+      // Simple check without using expectOutputToContain
+      const logOutput = global.consoleOutput.log;
+      expect(logOutput.some(msg => msg.includes('PairCoder initialized successfully'))).toBe(true);
     });
     
     it('should force reinitialize when force option is provided', async () => {
@@ -245,8 +266,9 @@ describe('init command', () => {
       await init({});
       
       // Verify error was logged
-      expectOutputToContain('Error initializing PairCoder', 'error');
-      expectOutputToContain('Test initialization error', 'error');
+      const errorOutput = global.consoleOutput.error;
+      expect(errorOutput.some(msg => msg.includes('Error initializing PairCoder'))).toBe(true);
+      expect(errorOutput.some(msg => msg.includes('Test initialization error'))).toBe(true);
       
       // Verify process.exit was called with code 1
       expect(mockExit).toHaveBeenCalledWith(1);

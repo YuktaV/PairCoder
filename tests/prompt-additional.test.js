@@ -159,8 +159,8 @@ describe('prompt.js additional tests', () => {
       // Reset the mock before testing
       mockFs.readFile.mockClear();
       
-      // Set up specific implementation for this test
-      mockFs.readFile.mockImplementation((path, options) => {
+      // Important: Need to create the mock with mockImplementation BEFORE using it
+      mockFs.readFile = jest.fn().mockImplementation((path, options) => {
         console.log(`Mock readFile called with path: ${path}`);
         if (path === 'template.txt' || path.includes('template.txt')) {
           console.log('Returning file template content');
@@ -169,6 +169,9 @@ describe('prompt.js additional tests', () => {
         console.log(`File not found: ${path}`);
         return Promise.reject(new Error(`File not found: ${path}`));
       });
+      
+      // Verify mock is properly set up
+      console.log('Mock readFile setup complete');
       
       await promptCmd('create', 'file-template', { file: 'template.txt' });
       

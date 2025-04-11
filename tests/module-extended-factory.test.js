@@ -77,9 +77,31 @@ describe('module-extended-factory.js', () => {
     }
   };
   
-  describe('detectModules function', () => {
+  describe('detect command', () => {
+    it('should detect modules in the project', async () => {
+      await extendedCommands.detect.action({});
+      
+      expect(mockModuleManager.detectModules).toHaveBeenCalled();
+      expectOutputToContain('Detecting modules');
+      expectOutputToContain('Detected 2 potential modules');
+    });
+    
+    it('should add detected modules when --add option is used', async () => {
+      await extendedCommands.detect.action({ add: true });
+      
+      expect(mockModuleManager.addModule).toHaveBeenCalledTimes(2);
+      expectOutputToContain('Adding detected modules');
+    });
+    
+    it('should handle case with no detected modules', async () => {
+      mockModuleManager.detectModules.mockResolvedValueOnce([]);
+      
+      await extendedCommands.detect.action({});
+      
+      expectOutputToContain('No modules automatically detected');
+    });
+    
     it('should handle error during module detection', async () => {
-      // Mock detectModules to throw error
       mockModuleManager.detectModules.mockRejectedValueOnce(
         new Error('Test detection error')
       );
@@ -89,17 +111,54 @@ describe('module-extended-factory.js', () => {
       expectOutputToContain('Error detecting modules', 'error');
       expect(mockExit).toHaveBeenCalledWith(1);
     });
+  });
+  
+  describe('deps command', () => {
+    it('should add dependency to a module', async () => {
+      await extendedCommands.deps.action('module1', { add: 'module2' });
+      
+      expect(mockModuleManager.addDependency).toHaveBeenCalledWith('module1', 'module2');
+      expectOutputToContain('Added dependency');
+    });
     
-    it('should handle module addition errors when --add is specified', async () => {
-      // Mock addModule to succeed for first module and fail for second
-      mockModuleManager.addModule
-        .mockResolvedValueOnce({ name: 'detected1', path: 'src/detected1' })
-        .mockRejectedValueOnce(new Error('Module already exists'));
+    it('should remove dependency from a module', async () => {
+      await extendedCommands.deps.action('module1', { remove: 'module2' });
       
-      await extendedCommands.detect.action({ add: true });
+      expect(mockModuleManager.removeDependency).toHaveBeenCalledWith('module1', 'module2');
+      expectOutputToContain('Removed dependency');
+    });
+    
+    it('should show module dependencies', async () => {
+      await extendedCommands.deps.action('module1', {});
       
-      expectOutputToContain('Added module', 'log');
-      expectOutputToContain('Warning: Could not add module', 'warn');
+      expect(mockModuleManager.getDependencies).toHaveBeenCalledWith('module1');
+      expectOutputToContain('Dependencies for module');
+      expectOutputToContain('Depends on: dep1, dep2');
+      expectOutputToContain('Used by: dependent1');
+    });
+    
+    it('should visualize all dependencies', async () => {
+      await extendedCommands.deps.action(null, { visualize: true });
+      
+      expect(mockModuleManager.listModules).toHaveBeenCalled();
+      expectOutputToContain('Module dependency visualization');
+    });
+    
+    it('should show guidance when no action specified', async () => {
+      await extendedCommands.deps.action(null, {});
+      
+      expectOutputToContain('Please specify a module name or use --visualize');
+    });
+    
+    it('should handle error during dependency management', async () => {
+      mockModuleManager.getDependencies.mockRejectedValueOnce(
+        new Error('Test dependency error')
+      );
+      
+      await extendedCommands.deps.action('module1', {});
+      
+      expectOutputToContain('Error managing dependencies', 'error');
+      expect(mockExit).toHaveBeenCalledWith(1);
     });
   });
 });

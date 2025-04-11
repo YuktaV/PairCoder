@@ -86,19 +86,87 @@ describe('generate-factory.js', () => {
   };
   
   describe('generateCmd function', () => {
-    it('should handle case when no module is in focus with --focus option', async () => {
-      // Mock getConfig to return no focus
-      mockConfigManager.getConfig.mockResolvedValueOnce({
-        focus: null
-      });
+    it('should generate context for a specific module', async () => {
+      const result = await generateCmd('module1');
       
-      const result = await generateCmd(null, { focus: true });
+      expect(result.success).toBe(true);
+      expect(mockContextGenerator.generateModuleContext).toHaveBeenCalledWith(
+        'module1',
+        expect.objectContaining({ level: 'medium' })
+      );
+    });
+    
+    it('should generate context for all modules when no module specified', async () => {
+      const result = await generateCmd();
+      
+      expect(result.success).toBe(true);
+      expect(mockModuleManager.listModules).toHaveBeenCalled();
+      expect(mockContextGenerator.generateModuleContext).toHaveBeenCalledTimes(3);
+    });
+    
+    it('should handle no modules found case', async () => {
+      mockModuleManager.listModules.mockResolvedValueOnce([]);
+      
+      const result = await generateCmd();
+      
+      expect(result.success).toBe(false);
+      expectOutputToContain('No modules found', 'error');
+    });
+    
+    it('should handle no focused module with --focus option', async () => {
+      mockConfigManager.getConfig.mockResolvedValueOnce({focus: null});
+      
+      const result = await generateCmd(null, {focus: true});
       
       expect(result.success).toBe(false);
       expectOutputToContain('No module is currently in focus', 'error');
     });
     
-    it('should handle error during module context generation', async () => {
+    it('should handle invalid detail level', async () => {
+      const result = await generateCmd('module1', { level: 'invalid-level' });
+      
+      expect(result.success).toBe(false);
+      expectOutputToContain('Invalid detail level', 'error');
+    });
+    
+    it('should focus on the currently focused module', async () => {
+      const result = await generateCmd(null, { focus: true });
+      
+      expect(result.success).toBe(true);
+      expect(mockContextGenerator.generateModuleContext).toHaveBeenCalledWith(
+        'focused-module',
+        expect.objectContaining({ level: 'medium' })
+      );
+    });
+    
+    it('should respect force flag for regeneration', async () => {
+      await generateCmd('module1', { force: true });
+      
+      expect(mockContextGenerator.generateModuleContext).toHaveBeenCalledWith(
+        'module1',
+        expect.objectContaining({ force: true })
+      );
+    });
+    
+    it('should handle case when module does not exist', async () => {
+      const result = await generateCmd('nonexistent-module');
+      
+      expect(result.success).toBe(false);
+      expectOutputToContain('not found', 'error');
+    });
+    
+    it('should handle error during context generation', async () => {
+      mockContextGenerator.generateModuleContext.mockRejectedValueOnce(
+        new Error('Test error')
+      );
+      
+      const result = await generateCmd('module1');
+      
+      expect(result.success).toBe(false);
+      expectOutputToContain('Test error', 'error');
+    });
+    
+    it('should handle error during module context generation in batch mode', async () => {
       // Mock generateModuleContext to throw error for one module
       mockContextGenerator.generateModuleContext
         .mockResolvedValueOnce({ tokenCount: 2000, fromCache: false })
@@ -110,24 +178,6 @@ describe('generate-factory.js', () => {
       expect(result.success).toBe(true);
       expect(result.failCount).toBe(1);
       expect(result.successCount).toBe(2);
-    });
-    
-    it('should handle invalid detail level', async () => {
-      const result = await generateCmd('module1', { level: 'invalid-level' });
-      
-      expect(result.success).toBe(false);
-      expectOutputToContain('Invalid detail level', 'error');
-    });
-    
-    it('should handle error during context generation', async () => {
-      mockContextGenerator.generateModuleContext.mockRejectedValueOnce(
-        new Error('Test context generation error')
-      );
-      
-      const result = await generateCmd('module1');
-      
-      expect(result.success).toBe(false);
-      expectOutputToContain('Test context generation error', 'error');
     });
   });
 });

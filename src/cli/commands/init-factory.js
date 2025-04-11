@@ -136,7 +136,7 @@ function createInitCommand(deps = {}) {
       return { success: true, projectName, modules: detectedModules };
     } catch (error) {
       console.error(chalk.red('Error initializing PairCoder:'), error.message);
-      return { success: false, error: error.message };
+      process.exit(1);
     }
   }
 

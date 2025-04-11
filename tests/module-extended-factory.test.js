@@ -1,13 +1,13 @@
 /**
- * Tests for the module.js commands
+ * Tests for the module-extended-factory.js module
  */
 
-const { createModuleCommands } = require('../src/cli/commands/module');
+const { createExtendedModuleCommands } = require('../src/cli/commands/module-extended-factory');
 
-describe('module.js', () => {
+describe('module-extended-factory.js', () => {
   let mockModuleManager;
   let mockProjectScanner;
-  let moduleCommands;
+  let extendedCommands;
   let mockExit;
   
   beforeEach(() => {
@@ -36,7 +36,7 @@ describe('module.js', () => {
     };
     
     // Create commands with mocked dependencies
-    moduleCommands = createModuleCommands({
+    extendedCommands = createExtendedModuleCommands({
       moduleManager: mockModuleManager,
       projectScanner: mockProjectScanner
     });
@@ -77,57 +77,29 @@ describe('module.js', () => {
     }
   };
   
-  describe('list command', () => {
-    it('should handle error during module listing', async () => {
-      // Mock listModules to throw error
-      mockModuleManager.listModules.mockRejectedValueOnce(
-        new Error('Test listing error')
+  describe('detectModules function', () => {
+    it('should handle error during module detection', async () => {
+      // Mock detectModules to throw error
+      mockModuleManager.detectModules.mockRejectedValueOnce(
+        new Error('Test detection error')
       );
       
-      await moduleCommands.list.action({});
+      await extendedCommands.detect.action({});
       
-      expectOutputToContain('Error listing modules', 'error');
+      expectOutputToContain('Error detecting modules', 'error');
       expect(mockExit).toHaveBeenCalledWith(1);
     });
     
-    it('should display modules in verbose mode', async () => {
-      // Mock a module with dependencies
-      mockModuleManager.listModules.mockResolvedValueOnce([
-        { 
-          name: 'module1', 
-          path: 'src/module1',
-          description: 'Test module',
-          dependencies: ['module2', 'module3']
-        }
-      ]);
+    it('should handle module addition errors when --add is specified', async () => {
+      // Mock addModule to succeed for first module and fail for second
+      mockModuleManager.addModule
+        .mockResolvedValueOnce({ name: 'detected1', path: 'src/detected1' })
+        .mockRejectedValueOnce(new Error('Module already exists'));
       
-      await moduleCommands.list.action({ verbose: true });
+      await extendedCommands.detect.action({ add: true });
       
-      expectOutputToContain('module1');
-      expectOutputToContain('Dependencies: module2, module3');
-    });
-    
-    it('should handle no modules found', async () => {
-      // Mock empty modules list
-      mockModuleManager.listModules.mockResolvedValueOnce([]);
-      
-      await moduleCommands.list.action({});
-      
-      expectOutputToContain('No modules defined');
-    });
-  });
-  
-  describe('deps command', () => {
-    it('should show warning when no module specified and no visualize option', async () => {
-      await moduleCommands.deps.action(null, {});
-      
-      expectOutputToContain('Please specify a module name');
-    });
-    
-    it('should visualize all dependencies', async () => {
-      await moduleCommands.deps.action(null, { visualize: true });
-      
-      expectOutputToContain('Module dependency visualization');
+      expectOutputToContain('Added module', 'log');
+      expectOutputToContain('Warning: Could not add module', 'warn');
     });
   });
 });

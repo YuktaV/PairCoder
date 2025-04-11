@@ -15,6 +15,7 @@
     "test:integration": "jest --config jest.config.js --testPathPattern=integration",
     "test:snapshot": "jest --config jest.config.js snapshot.test.js",
     "test:update-snapshots": "UPDATE_SNAPSHOTS=true jest --config jest.config.js snapshot.test.js",
+    "update-snapshots": "jest --config jest.config.js --updateSnapshot",
     "lint": "eslint src/**/*.js",
     "format": "prettier --write \"src/**/*.js\"",
     "build": "webpack --config webpack.config.js"

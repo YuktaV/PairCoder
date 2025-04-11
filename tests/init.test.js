@@ -48,6 +48,14 @@ jest.mock('inquirer', () => ({
 }));
 
 describe('init command', () => {
+  // Helper function to check output
+  const expectOutputToContain = (text, outputType = 'log') => {
+    const output = global.consoleOutput[outputType];
+    const found = output.some(line => line && typeof line === 'string' && line.includes(text));
+    if (!found) {
+      throw new Error(`Expected "${text}" to be in ${outputType} output, but it wasn't.\nActual output:\n${output.join('\n')}`);
+    }
+  };
   let originalCwd;
   
   beforeEach(() => {
@@ -215,9 +223,26 @@ describe('init command', () => {
   });
   
   describe('error handling', () => {
-    // Skip this test for now, since process.exit is hard to mock in Jest
-    it.skip('should handle errors during initialization', async () => {
-      // This test is skipped but init.js still has good coverage
+    it('should handle errors during initialization', async () => {
+      // Mock storageManager.initializeStorage to throw an error
+      storageManager.initializeStorage.mockRejectedValueOnce(
+        new Error('Test initialization error')
+      );
+      
+      // Mock process.exit to prevent actual exit
+      const mockExit = jest.spyOn(process, 'exit').mockImplementation(() => {});
+      
+      await init({});
+      
+      // Verify error was logged
+      expectOutputToContain('Error initializing PairCoder', 'error');
+      expectOutputToContain('Test initialization error', 'error');
+      
+      // Verify process.exit was called with code 1
+      expect(mockExit).toHaveBeenCalledWith(1);
+      
+      // Restore process.exit
+      mockExit.mockRestore();
     });
   });
 });

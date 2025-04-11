@@ -47,10 +47,10 @@ function createExportCommand(deps = {}) {
           .replace(/\*\*(.*)\*\*/g, '$1')   // Bold
           .replace(/\*(.*)\*/g, '$1')       // Italic
           .replace(/`(.*)`/g, '$1')         // Inline code
-          .replace(/```[\\s\\S]*?```/g, (match) => {
+          .replace(/```[\s\S]*?```/g, (match) => {
             // Code blocks - keep content but remove the backticks and language
             return match
-              .replace(/```.*\\n/, '')  // Remove opening fence with language
+              .replace(/```.*\n/, '')  // Remove opening fence with language
               .replace(/```/, '')      // Remove closing fence
               .trim();                 // Trim whitespace
           });
@@ -74,7 +74,7 @@ function createExportCommand(deps = {}) {
     }
     
     // Get optimization metadata from the context
-    const metaRegex = /\\*Note: Context was optimized.*Reduced by ([\\d\\.]+)%\\.\\*/;
+    const metaRegex = /\*Note: Context was optimized.*Reduced by ([\d\.]+)%\.\*/;
     const match = result.context.match(metaRegex);
     const reductionPercent = match ? match[1] : 'unknown';
     
@@ -144,6 +144,9 @@ function createExportCommand(deps = {}) {
       // Apply format transformation
       const formattedContent = formatContext(result, format);
       
+      // Generate optimization stats
+      const optimizationStats = generateOptimizationStats(result);
+      
       // Output handling
       if (options.output) {
         // Determine appropriate file extension
@@ -167,23 +170,24 @@ function createExportCommand(deps = {}) {
         await fs.writeFile(outputPath, formattedContent, 'utf8');
         
         console.log(chalk.green(`✓ Context exported to ${outputPath}`));
-        console.log(generateOptimizationStats(result));
+        console.log(optimizationStats);
       } else if (options.clipboard) {
         // Copy to clipboard
         await clipboard.write(formattedContent);
         
         console.log(chalk.green('✓ Context copied to clipboard'));
-        console.log(generateOptimizationStats(result));
+        console.log(optimizationStats);
       } else {
         // Print summary with option to view full context
         console.log(chalk.green('✓ Context generated successfully'));
         console.log(`Module: ${result.moduleName}`);
         console.log(`Detail level: ${result.level}`);
         console.log(`Format: ${format}`);
-        console.log(generateOptimizationStats(result));
+        console.log(optimizationStats);
         
+        // Show help or display content
         if (options.view) {
-          // Print full context
+          // Print full content based on format
           console.log('\n' + formattedContent);
         } else {
           console.log('\nTo view the full context:');

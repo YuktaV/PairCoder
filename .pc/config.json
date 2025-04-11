@@ -1,8 +1,7 @@
-Current PairCoder Configuration:
 {
   "project": {
-    "name": "",
-    "root": "",
+    "name": "PairCoder",
+    "root": "/Users/vasanthan/Desktop/PairCoder",
     "excludes": [
       "node_modules",
       "dist",
@@ -10,7 +9,14 @@ Current PairCoder Configuration:
       "build"
     ]
   },
-  "modules": [],
+  "modules": [
+    {
+      "name": "server",
+      "path": "src/server",
+      "description": "Module at src/server",
+      "dependencies": []
+    }
+  ],
   "context": {
     "defaultLevel": "medium",
     "tokenBudget": 4000

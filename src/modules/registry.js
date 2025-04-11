@@ -1,26 +1,25 @@
 /**
  * Module Registry
- * 
+ *
  * This module manages module dependencies and relationships.
  * It provides functions to register, query, and visualize dependencies.
  */
 
-const fs = require('fs-extra');
-const path = require('path');
-const { configManager } = require('../core/config');
+const fs = require("fs-extra");
+const path = require("path");
 
 /**
  * Module Registry class
  */
 class ModuleRegistry {
   constructor() {
-    this.registryPath = path.join(process.cwd(), '.pc', 'modules.json');
+    this.registryPath = path.join(process.cwd(), ".pc", "modules.json");
     this.registry = null;
   }
 
   /**
    * Initialize the registry
-   * 
+   *
    * @returns {Promise<void>}
    */
   async initialize() {
@@ -30,12 +29,12 @@ class ModuleRegistry {
 
     try {
       if (await fs.pathExists(this.registryPath)) {
-        const registryData = await fs.readFile(this.registryPath, 'utf8');
+        const registryData = await fs.readFile(this.registryPath, "utf8");
         this.registry = JSON.parse(registryData);
       } else {
         this.registry = {
           modules: {},
-          dependencies: {}
+          dependencies: {},
         };
         await this.saveRegistry();
       }
@@ -46,7 +45,7 @@ class ModuleRegistry {
 
   /**
    * Save the registry to disk
-   * 
+   *
    * @returns {Promise<void>}
    */
   async saveRegistry() {
@@ -55,7 +54,7 @@ class ModuleRegistry {
       await fs.writeFile(
         this.registryPath,
         JSON.stringify(this.registry, null, 2),
-        'utf8'
+        "utf8",
       );
     } catch (error) {
       throw new Error(`Error saving module registry: ${error.message}`);
@@ -64,7 +63,7 @@ class ModuleRegistry {
 
   /**
    * Register a module in the registry
-   * 
+   *
    * @param {string} name Module name
    * @param {string} modulePath Path to the module
    * @param {string} description Module description
@@ -80,14 +79,14 @@ class ModuleRegistry {
     const module = {
       name,
       path: modulePath,
-      description: description || '',
-      updatedAt: new Date().toISOString()
+      description: description || "",
+      updatedAt: new Date().toISOString(),
     };
 
     this.registry.modules[name] = module;
     this.registry.dependencies[name] = {
       dependsOn: [],
-      dependedBy: []
+      dependedBy: [],
     };
 
     await this.saveRegistry();
@@ -96,7 +95,7 @@ class ModuleRegistry {
 
   /**
    * Update a module in the registry
-   * 
+   *
    * @param {string} name Module name
    * @param {Object} updates Module updates
    * @returns {Promise<Object>} The updated module
@@ -109,11 +108,12 @@ class ModuleRegistry {
     }
 
     const module = this.registry.modules[name];
-    
+
     // Apply updates
     if (updates.path) module.path = updates.path;
-    if (updates.description !== undefined) module.description = updates.description;
-    
+    if (updates.description !== undefined)
+      module.description = updates.description;
+
     module.updatedAt = new Date().toISOString();
 
     await this.saveRegistry();
@@ -122,7 +122,7 @@ class ModuleRegistry {
 
   /**
    * Remove a module from the registry
-   * 
+   *
    * @param {string} name Module name
    * @returns {Promise<boolean>} Success status
    */
@@ -166,7 +166,7 @@ class ModuleRegistry {
 
   /**
    * Get all modules from the registry
-   * 
+   *
    * @returns {Promise<Object[]>} List of modules
    */
   async getModules() {
@@ -176,23 +176,23 @@ class ModuleRegistry {
 
   /**
    * Get a module by name
-   * 
+   *
    * @param {string} name Module name
    * @returns {Promise<Object>} Module object
    */
   async getModule(name) {
     await this.initialize();
-    
+
     if (!this.registry.modules[name]) {
       throw new Error(`Module '${name}' not found`);
     }
-    
+
     return this.registry.modules[name];
   }
 
   /**
    * Add a dependency between modules
-   * 
+   *
    * @param {string} moduleName Module name
    * @param {string} dependencyName Dependency module name
    * @returns {Promise<boolean>} Success status
@@ -211,16 +211,24 @@ class ModuleRegistry {
 
     // Check for circular dependency
     if (await this.hasDependencyPath(dependencyName, moduleName)) {
-      throw new Error(`Adding this dependency would create a circular dependency`);
+      throw new Error(
+        `Adding this dependency would create a circular dependency`,
+      );
     }
 
     // Add dependency if not already present
-    if (!this.registry.dependencies[moduleName].dependsOn.includes(dependencyName)) {
+    if (
+      !this.registry.dependencies[moduleName].dependsOn.includes(dependencyName)
+    ) {
       this.registry.dependencies[moduleName].dependsOn.push(dependencyName);
     }
 
     // Add reverse dependency if not already present
-    if (!this.registry.dependencies[dependencyName].dependedBy.includes(moduleName)) {
+    if (
+      !this.registry.dependencies[dependencyName].dependedBy.includes(
+        moduleName,
+      )
+    ) {
       this.registry.dependencies[dependencyName].dependedBy.push(moduleName);
     }
 
@@ -230,7 +238,7 @@ class ModuleRegistry {
 
   /**
    * Remove a dependency between modules
-   * 
+   *
    * @param {string} moduleName Module name
    * @param {string} dependencyName Dependency module name
    * @returns {Promise<boolean>} Success status
@@ -248,13 +256,15 @@ class ModuleRegistry {
     }
 
     // Remove dependency
-    const depIdx = this.registry.dependencies[moduleName].dependsOn.indexOf(dependencyName);
+    const depIdx =
+      this.registry.dependencies[moduleName].dependsOn.indexOf(dependencyName);
     if (depIdx !== -1) {
       this.registry.dependencies[moduleName].dependsOn.splice(depIdx, 1);
     }
 
     // Remove reverse dependency
-    const rdepIdx = this.registry.dependencies[dependencyName].dependedBy.indexOf(moduleName);
+    const rdepIdx =
+      this.registry.dependencies[dependencyName].dependedBy.indexOf(moduleName);
     if (rdepIdx !== -1) {
       this.registry.dependencies[dependencyName].dependedBy.splice(rdepIdx, 1);
     }
@@ -265,7 +275,7 @@ class ModuleRegistry {
 
   /**
    * Get dependencies for a module
-   * 
+   *
    * @param {string} moduleName Module name
    * @returns {Promise<Object>} Dependencies object
    */
@@ -279,13 +289,13 @@ class ModuleRegistry {
     return {
       module: moduleName,
       dependencies: this.registry.dependencies[moduleName].dependsOn,
-      dependents: this.registry.dependencies[moduleName].dependedBy
+      dependents: this.registry.dependencies[moduleName].dependedBy,
     };
   }
 
   /**
    * Check if there is a dependency path between modules
-   * 
+   *
    * @param {string} fromModule Starting module
    * @param {string} toModule Target module
    * @returns {Promise<boolean>} Whether a path exists
@@ -299,14 +309,14 @@ class ModuleRegistry {
 
     while (queue.length > 0) {
       const current = queue.shift();
-      
+
       if (current === toModule) {
         return true;
       }
-      
+
       if (!visited.has(current)) {
         visited.add(current);
-        
+
         // Add dependencies to queue
         if (this.registry.dependencies[current]) {
           for (const dep of this.registry.dependencies[current].dependsOn) {
@@ -321,7 +331,7 @@ class ModuleRegistry {
 
   /**
    * Get the full dependency graph
-   * 
+   *
    * @returns {Promise<Object>} Dependency graph
    */
   async getDependencyGraph() {

@@ -16,4 +16,5 @@ Commands:
   scan [options]                 Scan project files using exclusion patterns
   exclude [action] [pattern]     Manage file exclusion patterns
   prompt                         Manage prompt templates
+  serve [options]                Start the MCP server for Claude integration
   help [command]                 display help for command

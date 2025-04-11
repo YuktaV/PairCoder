@@ -13,6 +13,7 @@ PairCoder (`pc`) is a tool designed to optimize workflows between developers and
 - **Version Tracking**: Capture and restore project states
 - **Structured Communication**: Templates for effective AI collaboration
 - **Token Optimization**: Minimize token usage while maximizing information
+- **Claude Integration**: MCP server for direct integration with Claude
 
 ## Installation
 
@@ -36,11 +37,16 @@ pc generate
 
 # Focus on specific module
 pc focus auth
+
+# Start MCP server for Claude integration
+pc serve
 ```
 
 ## Documentation
 
 See the `docs` folder for detailed documentation and use cases.
+
+For Claude integration, see [CLAUDE_INTEGRATION.md](docs/CLAUDE_INTEGRATION.md).
 
 ## Development and Testing
 

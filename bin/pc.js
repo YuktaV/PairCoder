@@ -18,6 +18,7 @@ const { configCmd } = require('../src/cli/commands/config');
 const { excludeCmd } = require('../src/cli/commands/exclude');
 const { promptCmd } = require('../src/cli/commands/prompt');
 const { scanCmd } = require('../src/cli/commands/scan');
+const { serve } = require('../src/cli/commands/serve');
 
 // Set up the program
 program
@@ -139,6 +140,15 @@ promptCommand
   .option('--clipboard', 'Copy to clipboard')
   .option('--view', 'View prompt in terminal')
   .action((module, options) => promptCmd('generate', module, options));
+
+// Serve command for MCP server
+program
+  .command('serve')
+  .description('Start the MCP server for Claude integration')
+  .option('-p, --port <port>', 'Port to listen on', '3000')
+  .option('-h, --host <host>', 'Host to bind to', 'localhost')
+  .option('-d, --debug', 'Enable debug mode')
+  .action(serve);
 
 // Parse arguments
 program.parse(process.argv);

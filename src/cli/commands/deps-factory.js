@@ -1,11 +1,11 @@
 /**
  * PairCoder Module Dependencies Command Factory
- * 
+ *
  * This module provides the factory function to create dependency management commands
  * with proper dependency injection.
  */
 
-const { createDepsCommand } = require('./deps-command');
+const { createDepsCommand } = require("./deps-command");
 
 /**
  * Factory function to create dependency commands with injected dependencies
@@ -22,5 +22,5 @@ const depsCommand = createDepsFactory();
 
 module.exports = {
   deps: depsCommand.deps,
-  createDepsFactory
+  createDepsFactory,
 };

@@ -1,0 +1,21 @@
+{
+  "name": "server",
+  "path": "src/server",
+  "description": "Module at src/server",
+  "technologies": {
+    "languages": [
+      "JavaScript"
+    ],
+    "frameworks": [],
+    "buildTools": [],
+    "libraries": []
+  },
+  "fileCount": 1,
+  "fileTypes": [
+    {
+      "extension": ".js",
+      "count": 1
+    }
+  ],
+  "lastUpdated": "2025-04-11T17:18:17.390Z"
+}

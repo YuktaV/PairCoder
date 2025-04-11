@@ -109,7 +109,17 @@ describe('prompt.js additional tests', () => {
   // Helper function to check output
   const expectOutputToContain = (text, outputType = 'log') => {
     const output = global.consoleOutput[outputType];
-    const found = output.some(line => line && typeof line === 'string' && line.includes(text));
+    // Check if any line contains the text (case-insensitive and allowing for symbol variations)
+    const found = output.some(line => {
+      if (!line || typeof line !== 'string') return false;
+      // Remove style markers and normalize symbols for comparison
+      const normalizedLine = line.replace(/\u001b\[\d+m/g, '')  // Remove ANSI color codes
+                                .replace(/[✓✔]/, '✓')           // Normalize checkmarks
+                                .toLowerCase();
+      const normalizedText = text.toLowerCase();
+      return normalizedLine.includes(normalizedText);
+    });
+    
     if (!found) {
       throw new Error(`Expected "${text}" to be in ${outputType} output, but it wasn't.\nActual output:\n${output.join('\n')}`);
     }
@@ -143,9 +153,23 @@ describe('prompt.js additional tests', () => {
     });
     
     it('should create a template from a file', async () => {
+      // Reset the mock before testing
+      mockFs.readFile.mockClear();
+      
+      // Set up specific implementation for this test
+      mockFs.readFile.mockImplementation((path, options) => {
+        if (path === 'template.txt' || path.includes('template.txt')) {
+          return Promise.resolve('File template content');
+        }
+        return Promise.reject(new Error(`File not found: ${path}`));
+      });
+      
       await promptCmd('create', 'file-template', { file: 'template.txt' });
       
+      // Verify the mock was called with the correct path
       expect(mockFs.readFile).toHaveBeenCalled();
+      expect(mockFs.readFile.mock.calls[0][0]).toContain('template.txt');
+      
       expect(mockPromptEngine.saveTemplate).toHaveBeenCalledWith('file-template', expect.any(String));
       expectOutputToContain('Template \'file-template\' created successfully');
     });

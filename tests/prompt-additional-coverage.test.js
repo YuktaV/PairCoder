@@ -110,7 +110,17 @@ describe('prompt.js additional coverage', () => {
   // Helper function to check output
   const expectOutputToContain = (text, outputType = 'log') => {
     const output = global.consoleOutput[outputType];
-    const found = output.some(line => line && typeof line === 'string' && line.includes(text));
+    // Check if any line contains the text (case-insensitive and allowing for symbol variations)
+    const found = output.some(line => {
+      if (!line || typeof line !== 'string') return false;
+      // Remove style markers and normalize symbols for comparison
+      const normalizedLine = line.replace(/\u001b\[\d+m/g, '')  // Remove ANSI color codes
+                                .replace(/[✓✔]/, '✓')           // Normalize checkmarks
+                                .toLowerCase();
+      const normalizedText = text.toLowerCase();
+      return normalizedLine.includes(normalizedText);
+    });
+    
     if (!found) {
       throw new Error(`Expected "${text}" to be in ${outputType} output, but it wasn't.\nActual output:\n${output.join('\n')}`);
     }

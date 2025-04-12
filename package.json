@@ -41,7 +41,7 @@
     "mcp",
     "model-context-protocol"
   ],
-  "author": "",
+  "author": "Vasanthan M",
   "license": "MIT",
   "engines": {
     "node": ">=14.0.0"

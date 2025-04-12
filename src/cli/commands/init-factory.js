@@ -30,6 +30,8 @@ function createInitCommand(deps = {}) {
    *
    * @param {Object} options Command options
    * @param {boolean} options.force Force initialization even if already initialized
+   * @param {boolean} options.nonInteractive Skip interactive prompts
+   * @param {string} options.projectName Project name to use in non-interactive mode
    * @returns {Object} Result object with success flag
    */
   async function initCmd(options = {}) {
@@ -38,36 +40,54 @@ function createInitCommand(deps = {}) {
 
       // Check if already initialized
       const pcDirExists = await fs.pathExists(".pc");
-      if (pcDirExists && !options.force) {
-        console.log(
-          chalk.yellow("PairCoder already initialized in this directory."),
-        );
+      
+      // Handle based on interactive mode
+      let projectName;
+      
+      if (options.nonInteractive) {
+        // Non-interactive mode
+        if (pcDirExists && !options.force) {
+          console.log(chalk.yellow("PairCoder already initialized in this directory."));
+          console.log(chalk.yellow("Use --force to reinitialize."));
+          return { success: false, alreadyInitialized: true };
+        }
+        
+        // Use provided project name or default to directory name
+        projectName = options.projectName || path.basename(process.cwd());
+        console.log(chalk.blue(`Using project name: ${projectName}`));
+        
+      } else {
+        // Interactive mode
+        if (pcDirExists && !options.force) {
+          console.log(chalk.yellow("PairCoder already initialized in this directory."));
 
-        const { shouldContinue } = await inquirer.prompt([
+          const { shouldContinue } = await inquirer.prompt([
+            {
+              type: "confirm",
+              name: "shouldContinue",
+              message: "Would you like to reinitialize? This will overwrite existing configuration.",
+              default: false,
+            },
+          ]);
+
+          if (!shouldContinue) {
+            console.log(chalk.blue("Initialization cancelled."));
+            return { success: false, cancelled: true };
+          }
+        }
+
+        // Get project information interactively
+        const projectNameResponse = await inquirer.prompt([
           {
-            type: "confirm",
-            name: "shouldContinue",
-            message:
-              "Would you like to reinitialize? This will overwrite existing configuration.",
-            default: false,
+            type: "input",
+            name: "projectName",
+            message: "Project name:",
+            default: path.basename(process.cwd()),
           },
         ]);
-
-        if (!shouldContinue) {
-          console.log(chalk.blue("Initialization cancelled."));
-          return { success: false, cancelled: true };
-        }
+        
+        projectName = projectNameResponse.projectName;
       }
-
-      // Get project information
-      const { projectName } = await inquirer.prompt([
-        {
-          type: "input",
-          name: "projectName",
-          message: "Project name:",
-          default: path.basename(process.cwd()),
-        },
-      ]);
 
       // Setup directory structure
       await storageManager.initializeStorage();
@@ -108,15 +128,21 @@ function createInitCommand(deps = {}) {
           chalk.green(`✓ Detected ${detectedModules.length} potential modules`),
         );
 
-        const { shouldAddModules } = await inquirer.prompt([
-          {
-            type: "confirm",
-            name: "shouldAddModules",
-            message:
-              "Would you like to add these modules to your configuration?",
-            default: true,
-          },
-        ]);
+        // In non-interactive mode, always add modules
+        let shouldAddModules = options.nonInteractive ? true : false;
+        
+        // In interactive mode, ask the user
+        if (!options.nonInteractive) {
+          const response = await inquirer.prompt([
+            {
+              type: "confirm",
+              name: "shouldAddModules",
+              message: "Would you like to add these modules to your configuration?",
+              default: true,
+            },
+          ]);
+          shouldAddModules = response.shouldAddModules;
+        }
 
         if (shouldAddModules) {
           // Add detected modules to configuration
@@ -169,6 +195,14 @@ function createInitCommand(deps = {}) {
       {
         flags: "-f, --force",
         description: "Force initialization even if already initialized",
+      },
+      {
+        flags: "-n, --non-interactive",
+        description: "Run initialization without interactive prompts",
+      },
+      {
+        flags: "--project-name <name>",
+        description: "Project name to use in non-interactive mode",
       },
     ],
     action: initCmd,

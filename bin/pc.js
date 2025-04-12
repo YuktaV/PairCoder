@@ -18,7 +18,7 @@ const { configCmd } = require('../src/cli/commands/config');
 const { excludeCmd } = require('../src/cli/commands/exclude');
 const { promptCmd } = require('../src/cli/commands/prompt');
 const { scanCmd } = require('../src/cli/commands/scan');
-const { serve } = require('../src/cli/commands/serve');
+const { serve, mcpServe } = require('../src/cli/commands/serve');
 
 // Set up the program
 program
@@ -147,8 +147,20 @@ program
   .description('Start the MCP server for Claude integration')
   .option('-p, --port <port>', 'Port to listen on', '3000')
   .option('-h, --host <host>', 'Host to bind to', 'localhost')
-  .option('-d, --debug', 'Enable debug mode')
+  .option('-d, --project-dir <dir>', 'Project directory to serve')
+  .option('-a, --auto-init', 'Automatically initialize if needed')
+  .option('--debug', 'Enable debug mode')
   .action(serve);
+
+// Special MCP command for integration with Claude Desktop
+program
+  .command('mcp')
+  .description('Start as an MCP server optimized for Claude Desktop integration')
+  .option('-p, --port <port>', 'Port to listen on', '3000')
+  .option('-h, --host <host>', 'Host to bind to', 'localhost')
+  .option('-d, --project-dir <dir>', 'Project directory to serve')
+  .option('--debug', 'Enable debug mode')
+  .action(mcpServe);
 
 // Parse arguments
 program.parse(process.argv);

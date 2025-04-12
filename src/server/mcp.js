@@ -13,10 +13,24 @@ const { projectScanner } = require("../scanner");
 const { moduleManager } = require("../modules/manager");
 const chalk = require("chalk");
 
+/**
+ * Model Context Protocol (MCP) Server for PairCoder
+ */
 class MCPServer {
+  /**
+   * Create a new MCP server instance
+   * 
+   * @param {Object} options Server options
+   * @param {number} options.port Port to listen on
+   * @param {string} options.host Host to bind to
+   * @param {string} options.projectDir Project directory
+   * @param {boolean} options.debug Enable debug mode
+   */
   constructor(options = {}) {
     this.port = options.port || 3000;
     this.host = options.host || "localhost";
+    this.projectDir = options.projectDir || process.cwd();
+    this.debug = options.debug || false;
     this.server = null;
     this.routes = new Map();
     this.currentModule = null;

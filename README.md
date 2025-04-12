@@ -1,5 +1,9 @@
 Overview
 PairCoder (pc) is a revolutionary Model Context Protocol (MCP) server designed to optimize workflows between developers and AI assistants like Claude. It intelligently manages project context, tracks changes, and provides precise information extraction.
+
+> 🆕 **New Feature**: PairCoder now includes a dedicated MCP server mode for seamless integration with Claude Desktop! [See the integration guide](./CLAUDE_DESKTOP.md)
+>
+> 💡 **Smart Auto-Detection**: PairCoder can now automatically detect and serve your current project directory with zero configuration!
 Key Features
 
 Intelligent Context Management: Focus on specific project modules
@@ -30,10 +34,17 @@ pc focus auth
 
 # Start MCP server for Claude integration
 pc serve
+
+# Start as an MCP server for Claude Desktop
+npx paircoder mcp
+
+# Auto-detect current project and start MCP server
+npx paircoder-auto
 Documentation
 
-Claude Integration Guide
-Testing Guide
+[Claude Desktop Integration Guide](./CLAUDE_DESKTOP.md)
+[Claude API Integration Guide](./CLAUDE_INTEGRATION.md)
+[Testing Guide](./TESTING_GUIDE.md)
 
 Requirements
 

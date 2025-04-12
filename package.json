@@ -1,11 +1,13 @@
 {
   "name": "paircoder",
-  "version": "0.2.3",
+  "version": "0.3.0",
   "description": "Model Context Protocol server for efficient AI-assisted development",
   "main": "src/index.js",
   "bin": {
     "pc": "./bin/pc.js",
-    "paircoder": "./bin/pc.js"
+    "paircoder": "./bin/pc.js",
+    "paircoder-mcp": "./bin/pc.js mcp",
+    "paircoder-auto": "./bin/auto-detect.js"
   },
   "files": [
     "bin/",
@@ -35,7 +37,9 @@
     "development",
     "context",
     "tool",
-    "cli"
+    "cli",
+    "mcp",
+    "model-context-protocol"
   ],
   "author": "",
   "license": "MIT",

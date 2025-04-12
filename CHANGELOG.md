@@ -1,8 +1,24 @@
 # PairCoder Changelog
 
-## v0.1.1 (2025-04-11)
+## v0.3.0 (2025-04-12)
+
+### Added
+- **New Auto-Detect Feature**: Added `paircoder-auto` command that automatically detects the current project directory
+- Enhanced MCP integration with Claude Desktop with zero-configuration support
+- Project root detection algorithm that identifies common project structures
+- Improved documentation with detailed Claude Desktop integration guide
+
+### Changed
+- Updated the MCP server to better support the Model Context Protocol standard
+- Enhanced `serve` command with project directory and auto-initialization support
+- Improved initialization process with non-interactive mode for automation
 
 ### Fixed
+- Fixed MCP server JSON-RPC protocol compliance
+- Better error handling for edge cases in project detection
+- Improved stability when working with multiple projects
+
+## v0.2.3 (2025-04-11)
 - Fixed context generation in the MCP server when no files are found
 - Added robust error handling for the `/context` endpoint
 - Improved module scanning with a new `scanDirectory` method in the project scanner

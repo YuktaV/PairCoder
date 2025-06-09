@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>version/git-integration.js - Documentation</title>
+
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav>
+    <li class="nav-link nav-home-link"><a href="index.html">Home</a></li><li class="nav-heading">Classes</li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="AutoInitializer.html">AutoInitializer</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="AutoInitializer.html#initializeIfNeeded">initializeIfNeeded</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="ConfigManager.html">ConfigManager</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ConfigManager.html#addItem">addItem</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ConfigManager.html#deleteValue">deleteValue</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ConfigManager.html#getAllValues">getAllValues</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ConfigManager.html#getConfig">getConfig</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ConfigManager.html#getValue">getValue</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ConfigManager.html#initialize">initialize</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ConfigManager.html#removeItem">removeItem</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ConfigManager.html#resetAll">resetAll</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ConfigManager.html#resetConfig">resetConfig</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ConfigManager.html#resetValue">resetValue</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ConfigManager.html#saveConfig">saveConfig</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ConfigManager.html#setValue">setValue</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="ContextGenerator.html">ContextGenerator</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ContextGenerator.html#estimateTokens">estimateTokens</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ContextGenerator.html#exportContext">exportContext</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ContextGenerator.html#generateAllContexts">generateAllContexts</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ContextGenerator.html#generateContext">generateContext</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ContextGenerator.html#generateHighLevelContext">generateHighLevelContext</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ContextGenerator.html#generateLowLevelContext">generateLowLevelContext</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ContextGenerator.html#generateMediumLevelContext">generateMediumLevelContext</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ContextGenerator.html#generateModuleContext">generateModuleContext</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ContextGenerator.html#getLanguageFromExtension">getLanguageFromExtension</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ContextGenerator.html#getModuleFiles">getModuleFiles</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ContextGenerator.html#groupFilesByDirectory">groupFilesByDirectory</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ContextGenerator.html#initialize">initialize</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ContextGenerator.html#summarizeFileSize">summarizeFileSize</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="DynamicMCPServer.html">DynamicMCPServer</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="DynamicMCPServer.html#start">start</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="DynamicMCPServer.html#stop">stop</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="GitIntegration.html">GitIntegration</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="GitIntegration.html#createVersionFromCommit">createVersionFromCommit</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="GitIntegration.html#getCommitDiff">getCommitDiff</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="GitIntegration.html#getFileDiff">getFileDiff</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="GitIntegration.html#getGitInfo">getGitInfo</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="GitIntegration.html#isGitAvailable">isGitAvailable</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="GitIntegration.html#isGitRepository">isGitRepository</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="GitIntegration.html#linkVersionToCommit">linkVersionToCommit</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="MCPServer.html">MCPServer</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="MCPServer.html#getRequestBody">getRequestBody</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="MCPServer.html#initialize">initialize</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="MCPServer.html#registerRoutes">registerRoutes</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="MCPServer.html#start">start</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="MCPServer.html#stop">stop</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="ModuleManager.html">ModuleManager</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ModuleManager.html#addDependency">addDependency</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ModuleManager.html#addModule">addModule</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ModuleManager.html#detectModules">detectModules</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ModuleManager.html#getDependencies">getDependencies</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ModuleManager.html#getFocus">getFocus</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ModuleManager.html#getModule">getModule</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ModuleManager.html#listModules">listModules</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ModuleManager.html#removeDependency">removeDependency</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ModuleManager.html#removeModule">removeModule</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ModuleManager.html#setFocus">setFocus</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="ModuleRegistry.html">ModuleRegistry</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ModuleRegistry.html#addDependency">addDependency</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ModuleRegistry.html#getDependencies">getDependencies</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ModuleRegistry.html#getDependencyGraph">getDependencyGraph</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ModuleRegistry.html#getModule">getModule</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ModuleRegistry.html#getModules">getModules</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ModuleRegistry.html#hasDependencyPath">hasDependencyPath</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ModuleRegistry.html#initialize">initialize</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ModuleRegistry.html#registerModule">registerModule</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ModuleRegistry.html#removeDependency">removeDependency</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ModuleRegistry.html#removeModule">removeModule</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ModuleRegistry.html#saveRegistry">saveRegistry</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ModuleRegistry.html#updateModule">updateModule</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="PairCoder.html">PairCoder</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="PairCoder.html#getVersion">getVersion</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="PairCoder.html#initialize">initialize</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="PathDetector.html">PathDetector</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="PathDetector.html#determineBestProjectDirectory">determineBestProjectDirectory</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="PathDetector.html#findNearestProjectDirectory">findNearestProjectDirectory</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="PathDetector.html#isInitialized">isInitialized</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="PathDetector.html#isProjectDirectory">isProjectDirectory</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="ProjectScanner.html">ProjectScanner</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ProjectScanner.html#categorizeFiles">categorizeFiles</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ProjectScanner.html#detectModules">detectModules</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ProjectScanner.html#detectTechnologies">detectTechnologies</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ProjectScanner.html#extractDirectories">extractDirectories</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ProjectScanner.html#globPromise">globPromise</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ProjectScanner.html#initialize">initialize</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ProjectScanner.html#scanDirectory">scanDirectory</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ProjectScanner.html#scanProject">scanProject</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="PromptEngine.html">PromptEngine</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="PromptEngine.html#generatePrompt">generatePrompt</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="PromptEngine.html#getAvailableTemplates">getAvailableTemplates</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="PromptEngine.html#getTemplateContent">getTemplateContent</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="PromptEngine.html#getTemplateDescription">getTemplateDescription</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="PromptEngine.html#getTemplatesDir">getTemplatesDir</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="PromptEngine.html#saveTemplate">saveTemplate</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="ScannerConfig.html">ScannerConfig</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ScannerConfig.html#addExclusion">addExclusion</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ScannerConfig.html#getExclusions">getExclusions</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ScannerConfig.html#getOptions">getOptions</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ScannerConfig.html#getUserExclusions">getUserExclusions</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ScannerConfig.html#removeExclusion">removeExclusion</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ScannerConfig.html#resetExclusions">resetExclusions</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ScannerConfig.html#setOption">setOption</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="StorageManager.html">StorageManager</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="StorageManager.html#addJournalEntry">addJournalEntry</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="StorageManager.html#clearCache">clearCache</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="StorageManager.html#getFromCache">getFromCache</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="StorageManager.html#getJournal">getJournal</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="StorageManager.html#getModuleMetadata">getModuleMetadata</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="StorageManager.html#getModuleSummary">getModuleSummary</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="StorageManager.html#getVersion">getVersion</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="StorageManager.html#initializeStorage">initializeStorage</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="StorageManager.html#listModules">listModules</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="StorageManager.html#listVersions">listVersions</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="StorageManager.html#saveModuleMetadata">saveModuleMetadata</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="StorageManager.html#saveModuleSummary">saveModuleSummary</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="StorageManager.html#saveToCache">saveToCache</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="StorageManager.html#saveVersion">saveVersion</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="TokenOptimizer.html">TokenOptimizer</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="TokenOptimizer.html#configure">configure</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="TokenOptimizer.html#configureStrategiesForReduction">configureStrategiesForReduction</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="TokenOptimizer.html#estimateTokens">estimateTokens</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="TokenOptimizer.html#optimizeContext">optimizeContext</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="VersionController.html">VersionController</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="VersionController.html#compareVersions">compareVersions</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="VersionController.html#deleteVersion">deleteVersion</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="VersionController.html#getVersion">getVersion</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="VersionController.html#initialize">initialize</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="VersionController.html#listVersions">listVersions</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="VersionController.html#restoreVersion">restoreVersion</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="VersionController.html#saveVersion">saveVersion</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="VersionController.html#versionFromCommit">versionFromCommit</a></span></li><li class="nav-heading"><a href="global.html">Globals</a></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#DEFAULT_CONFIG">DEFAULT_CONFIG</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#DEFAULT_EXCLUSIONS">DEFAULT_EXCLUSIONS</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#applyOptimizationStrategy">applyOptimizationStrategy</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#chalk">chalk</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#codeSkeletonization">codeSkeletonization</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#createConfigCommands">createConfigCommands</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#createDepsCommand">createDepsCommand</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#createDepsFactory">createDepsFactory</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#createExcludeCommand">createExcludeCommand</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#createExportCommand">createExportCommand</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#createExtendedModuleCommands">createExtendedModuleCommands</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#createFocusCommand">createFocusCommand</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#createGenerateCommand">createGenerateCommand</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#createInitCommand">createInitCommand</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#createModuleCommands">createModuleCommands</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#createPromptCommands">createPromptCommands</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#createScanCommand">createScanCommand</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#estimateTokens">estimateTokens</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#extractCodeElements">extractCodeElements</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#fs">fs</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getSectionPriority">getSectionPriority</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#http">http</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#identifyComplexRegions">identifyComplexRegions</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#inquirer">inquirer</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#mcpServe">mcpServe</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#parseContextSections">parseContextSections</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#path">path</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#prioritizeSections">prioritizeSections</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#reduceIndentation">reduceIndentation</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#removeBlankLines">removeBlankLines</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#serve">serve</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#shortenPaths">shortenPaths</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#summarizeFiles">summarizeFiles</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#trimComments">trimComments</a></span></li>
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">version/git-integration.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * PairCoder Git Integration
+ *
+ * This module handles integration with Git for version management.
+ * It provides functions for working with Git repositories and commits.
+ */
+
+const { exec } = require("child_process");
+const { promisify } = require("util");
+const { storageManager } = require("../storage/manager");
+
+// Promisified exec
+const execPromise = promisify(exec);
+
+/**
+ * Git Integration for PairCoder
+ */
+class GitIntegration {
+  /**
+   * Get Git information for the current repository
+   *
+   * @returns {Promise&lt;Object>} Git information
+   */
+  async getGitInfo() {
+    try {
+      // Check if Git is installed and if this is a Git repository
+      await execPromise("git rev-parse --is-inside-work-tree");
+
+      // Get current commit
+      const { stdout: commitHash } = await execPromise("git rev-parse HEAD");
+
+      // Get current branch
+      const { stdout: branchName } = await execPromise(
+        "git rev-parse --abbrev-ref HEAD",
+      );
+
+      // Get commit message
+      const { stdout: commitMessage } = await execPromise(
+        "git log -1 --pretty=%B",
+      );
+
+      // Check for uncommitted changes
+      const { stdout: status } = await execPromise("git status --porcelain");
+      const hasUncommittedChanges = status.trim().length > 0;
+
+      return {
+        commit: commitHash.trim(),
+        branch: branchName.trim(),
+        message: commitMessage.trim(),
+        hasUncommittedChanges,
+        timestamp: new Date().toISOString(),
+      };
+    } catch (error) {
+      throw new Error(`Error getting Git information: ${error.message}`);
+    }
+  }
+
+  /**
+   * Create a version from a Git commit
+   *
+   * @param {string} commitHash Git commit hash
+   * @param {string} versionName Optional version name (uses commit hash if not provided)
+   * @returns {Promise&lt;Object>} Created version
+   */
+  async createVersionFromCommit(commitHash, versionName = null) {
+    try {
+      // Validate commit hash
+      if (!commitHash || commitHash.trim() === "") {
+        throw new Error("Commit hash cannot be empty");
+      }
+
+      // Get commit information
+      const { stdout: commitInfo } = await execPromise(
+        `git show -s --format=%B ${commitHash}`,
+      );
+      const { stdout: commitDate } = await execPromise(
+        `git show -s --format=%ci ${commitHash}`,
+      );
+
+      // Use commit hash as version name if not provided
+      const name = versionName || commitHash.substring(0, 8);
+
+      // Get files changed in commit
+      const { stdout: changedFiles } = await execPromise(
+        `git diff-tree --no-commit-id --name-only -r ${commitHash}`,
+      );
+      const files = changedFiles.split("\n").filter(Boolean);
+
+      // Build version snapshot
+      const snapshot = {
+        name,
+        timestamp: new Date(commitDate.trim()).toISOString(),
+        notes: `Created from Git commit ${commitHash}: ${commitInfo.trim()}`,
+        modules: {},
+        git: {
+          commit: commitHash.trim(),
+          message: commitInfo.trim(),
+          date: commitDate.trim(),
+          changedFiles: files,
+        },
+      };
+
+      // Save the snapshot
+      await storageManager.saveVersion(name, snapshot);
+
+      // Add journal entry
+      await storageManager.addJournalEntry(
+        `Created version '${name}' from Git commit ${commitHash}`,
+      );
+
+      return {
+        name,
+        timestamp: snapshot.timestamp,
+        moduleCount: Object.keys(snapshot.modules).length,
+        hasGitInfo: true,
+      };
+    } catch (error) {
+      throw new Error(`Error creating version from commit: ${error.message}`);
+    }
+  }
+
+  /**
+   * Link a version to a Git commit
+   *
+   * @param {string} versionName Version name
+   * @param {string} commitHash Git commit hash
+   * @returns {Promise&lt;Object>} Updated version
+   */
+  async linkVersionToCommit(versionName, commitHash) {
+    try {
+      // Validate inputs
+      if (!versionName || versionName.trim() === "") {
+        throw new Error("Version name cannot be empty");
+      }
+
+      if (!commitHash || commitHash.trim() === "") {
+        throw new Error("Commit hash cannot be empty");
+      }
+
+      // Get version
+      const version = await storageManager.getVersion(versionName);
+      if (!version) {
+        throw new Error(`Version '${versionName}' not found`);
+      }
+
+      // Get commit information
+      const { stdout: commitInfo } = await execPromise(
+        `git show -s --format=%B ${commitHash}`,
+      );
+      const { stdout: commitDate } = await execPromise(
+        `git show -s --format=%ci ${commitHash}`,
+      );
+
+      // Get files changed in commit
+      const { stdout: changedFiles } = await execPromise(
+        `git diff-tree --no-commit-id --name-only -r ${commitHash}`,
+      );
+      const files = changedFiles.split("\n").filter(Boolean);
+
+      // Update Git information
+      version.git = {
+        commit: commitHash.trim(),
+        message: commitInfo.trim(),
+        date: commitDate.trim(),
+        changedFiles: files,
+      };
+
+      // Save updated version
+      await storageManager.saveVersion(versionName, version);
+
+      // Add journal entry
+      await storageManager.addJournalEntry(
+        `Linked version '${versionName}' to Git commit ${commitHash}`,
+      );
+
+      return {
+        name: versionName,
+        timestamp: version.timestamp,
+        moduleCount: Object.keys(version.modules).length,
+        hasGitInfo: true,
+      };
+    } catch (error) {
+      throw new Error(`Error linking version to commit: ${error.message}`);
+    }
+  }
+
+  /**
+   * Get Git diff between two commits
+   *
+   * @param {string} fromCommit Source commit hash
+   * @param {string} toCommit Target commit hash
+   * @returns {Promise&lt;string>} Git diff
+   */
+  async getCommitDiff(fromCommit, toCommit) {
+    try {
+      const { stdout: diff } = await execPromise(
+        `git diff ${fromCommit} ${toCommit}`,
+      );
+      return diff;
+    } catch (error) {
+      throw new Error(`Error getting commit diff: ${error.message}`);
+    }
+  }
+
+  /**
+   * Get Git diff for a specific file between two commits
+   *
+   * @param {string} filePath File path
+   * @param {string} fromCommit Source commit hash
+   * @param {string} toCommit Target commit hash
+   * @returns {Promise&lt;string>} Git diff
+   */
+  async getFileDiff(filePath, fromCommit, toCommit) {
+    try {
+      const { stdout: diff } = await execPromise(
+        `git diff ${fromCommit} ${toCommit} -- ${filePath}`,
+      );
+      return diff;
+    } catch (error) {
+      throw new Error(`Error getting file diff: ${error.message}`);
+    }
+  }
+
+  /**
+   * Check if Git is available and properly configured
+   *
+   * @returns {Promise&lt;boolean>} Git availability status
+   */
+  async isGitAvailable() {
+    try {
+      await execPromise("git --version");
+      return true;
+    } catch (error) {
+      return false;
+    }
+  }
+
+  /**
+   * Check if current directory is a Git repository
+   *
+   * @returns {Promise&lt;boolean>} Git repository status
+   */
+  async isGitRepository() {
+    try {
+      await execPromise("git rev-parse --is-inside-work-tree");
+      return true;
+    } catch (error) {
+      return false;
+    }
+  }
+}
+
+// Export singleton instance
+const gitIntegration = new GitIntegration();
+module.exports = { gitIntegration };
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<br class="clear">
+
+<footer>
+    Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.4</a> on Fri May 02 2025 15:06:49 GMT+0530 (India Standard Time) using the Minami theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/linenumber.js"></script>
+</body>
+</html>

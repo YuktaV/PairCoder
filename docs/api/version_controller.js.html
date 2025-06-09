@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>version/controller.js - Documentation</title>
+
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav>
+    <li class="nav-link nav-home-link"><a href="index.html">Home</a></li><li class="nav-heading">Classes</li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="AutoInitializer.html">AutoInitializer</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="AutoInitializer.html#initializeIfNeeded">initializeIfNeeded</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="ConfigManager.html">ConfigManager</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ConfigManager.html#addItem">addItem</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ConfigManager.html#deleteValue">deleteValue</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ConfigManager.html#getAllValues">getAllValues</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ConfigManager.html#getConfig">getConfig</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ConfigManager.html#getValue">getValue</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ConfigManager.html#initialize">initialize</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ConfigManager.html#removeItem">removeItem</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ConfigManager.html#resetAll">resetAll</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ConfigManager.html#resetConfig">resetConfig</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ConfigManager.html#resetValue">resetValue</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ConfigManager.html#saveConfig">saveConfig</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ConfigManager.html#setValue">setValue</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="ContextGenerator.html">ContextGenerator</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ContextGenerator.html#estimateTokens">estimateTokens</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ContextGenerator.html#exportContext">exportContext</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ContextGenerator.html#generateAllContexts">generateAllContexts</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ContextGenerator.html#generateContext">generateContext</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ContextGenerator.html#generateHighLevelContext">generateHighLevelContext</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ContextGenerator.html#generateLowLevelContext">generateLowLevelContext</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ContextGenerator.html#generateMediumLevelContext">generateMediumLevelContext</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ContextGenerator.html#generateModuleContext">generateModuleContext</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ContextGenerator.html#getLanguageFromExtension">getLanguageFromExtension</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ContextGenerator.html#getModuleFiles">getModuleFiles</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ContextGenerator.html#groupFilesByDirectory">groupFilesByDirectory</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ContextGenerator.html#initialize">initialize</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ContextGenerator.html#summarizeFileSize">summarizeFileSize</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="DynamicMCPServer.html">DynamicMCPServer</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="DynamicMCPServer.html#start">start</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="DynamicMCPServer.html#stop">stop</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="GitIntegration.html">GitIntegration</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="GitIntegration.html#createVersionFromCommit">createVersionFromCommit</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="GitIntegration.html#getCommitDiff">getCommitDiff</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="GitIntegration.html#getFileDiff">getFileDiff</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="GitIntegration.html#getGitInfo">getGitInfo</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="GitIntegration.html#isGitAvailable">isGitAvailable</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="GitIntegration.html#isGitRepository">isGitRepository</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="GitIntegration.html#linkVersionToCommit">linkVersionToCommit</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="MCPServer.html">MCPServer</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="MCPServer.html#getRequestBody">getRequestBody</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="MCPServer.html#initialize">initialize</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="MCPServer.html#registerRoutes">registerRoutes</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="MCPServer.html#start">start</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="MCPServer.html#stop">stop</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="ModuleManager.html">ModuleManager</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ModuleManager.html#addDependency">addDependency</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ModuleManager.html#addModule">addModule</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ModuleManager.html#detectModules">detectModules</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ModuleManager.html#getDependencies">getDependencies</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ModuleManager.html#getFocus">getFocus</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ModuleManager.html#getModule">getModule</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ModuleManager.html#listModules">listModules</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ModuleManager.html#removeDependency">removeDependency</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ModuleManager.html#removeModule">removeModule</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ModuleManager.html#setFocus">setFocus</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="ModuleRegistry.html">ModuleRegistry</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ModuleRegistry.html#addDependency">addDependency</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ModuleRegistry.html#getDependencies">getDependencies</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ModuleRegistry.html#getDependencyGraph">getDependencyGraph</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ModuleRegistry.html#getModule">getModule</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ModuleRegistry.html#getModules">getModules</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ModuleRegistry.html#hasDependencyPath">hasDependencyPath</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ModuleRegistry.html#initialize">initialize</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ModuleRegistry.html#registerModule">registerModule</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ModuleRegistry.html#removeDependency">removeDependency</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ModuleRegistry.html#removeModule">removeModule</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ModuleRegistry.html#saveRegistry">saveRegistry</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ModuleRegistry.html#updateModule">updateModule</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="PairCoder.html">PairCoder</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="PairCoder.html#getVersion">getVersion</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="PairCoder.html#initialize">initialize</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="PathDetector.html">PathDetector</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="PathDetector.html#determineBestProjectDirectory">determineBestProjectDirectory</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="PathDetector.html#findNearestProjectDirectory">findNearestProjectDirectory</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="PathDetector.html#isInitialized">isInitialized</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="PathDetector.html#isProjectDirectory">isProjectDirectory</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="ProjectScanner.html">ProjectScanner</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ProjectScanner.html#categorizeFiles">categorizeFiles</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ProjectScanner.html#detectModules">detectModules</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ProjectScanner.html#detectTechnologies">detectTechnologies</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ProjectScanner.html#extractDirectories">extractDirectories</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ProjectScanner.html#globPromise">globPromise</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ProjectScanner.html#initialize">initialize</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ProjectScanner.html#scanDirectory">scanDirectory</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ProjectScanner.html#scanProject">scanProject</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="PromptEngine.html">PromptEngine</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="PromptEngine.html#generatePrompt">generatePrompt</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="PromptEngine.html#getAvailableTemplates">getAvailableTemplates</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="PromptEngine.html#getTemplateContent">getTemplateContent</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="PromptEngine.html#getTemplateDescription">getTemplateDescription</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="PromptEngine.html#getTemplatesDir">getTemplatesDir</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="PromptEngine.html#saveTemplate">saveTemplate</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="ScannerConfig.html">ScannerConfig</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ScannerConfig.html#addExclusion">addExclusion</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ScannerConfig.html#getExclusions">getExclusions</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ScannerConfig.html#getOptions">getOptions</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ScannerConfig.html#getUserExclusions">getUserExclusions</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ScannerConfig.html#removeExclusion">removeExclusion</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ScannerConfig.html#resetExclusions">resetExclusions</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ScannerConfig.html#setOption">setOption</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="StorageManager.html">StorageManager</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="StorageManager.html#addJournalEntry">addJournalEntry</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="StorageManager.html#clearCache">clearCache</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="StorageManager.html#getFromCache">getFromCache</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="StorageManager.html#getJournal">getJournal</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="StorageManager.html#getModuleMetadata">getModuleMetadata</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="StorageManager.html#getModuleSummary">getModuleSummary</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="StorageManager.html#getVersion">getVersion</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="StorageManager.html#initializeStorage">initializeStorage</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="StorageManager.html#listModules">listModules</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="StorageManager.html#listVersions">listVersions</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="StorageManager.html#saveModuleMetadata">saveModuleMetadata</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="StorageManager.html#saveModuleSummary">saveModuleSummary</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="StorageManager.html#saveToCache">saveToCache</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="StorageManager.html#saveVersion">saveVersion</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="TokenOptimizer.html">TokenOptimizer</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="TokenOptimizer.html#configure">configure</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="TokenOptimizer.html#configureStrategiesForReduction">configureStrategiesForReduction</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="TokenOptimizer.html#estimateTokens">estimateTokens</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="TokenOptimizer.html#optimizeContext">optimizeContext</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="VersionController.html">VersionController</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="VersionController.html#compareVersions">compareVersions</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="VersionController.html#deleteVersion">deleteVersion</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="VersionController.html#getVersion">getVersion</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="VersionController.html#initialize">initialize</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="VersionController.html#listVersions">listVersions</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="VersionController.html#restoreVersion">restoreVersion</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="VersionController.html#saveVersion">saveVersion</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="VersionController.html#versionFromCommit">versionFromCommit</a></span></li><li class="nav-heading"><a href="global.html">Globals</a></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#DEFAULT_CONFIG">DEFAULT_CONFIG</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#DEFAULT_EXCLUSIONS">DEFAULT_EXCLUSIONS</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#applyOptimizationStrategy">applyOptimizationStrategy</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#chalk">chalk</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#codeSkeletonization">codeSkeletonization</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#createConfigCommands">createConfigCommands</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#createDepsCommand">createDepsCommand</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#createDepsFactory">createDepsFactory</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#createExcludeCommand">createExcludeCommand</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#createExportCommand">createExportCommand</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#createExtendedModuleCommands">createExtendedModuleCommands</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#createFocusCommand">createFocusCommand</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#createGenerateCommand">createGenerateCommand</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#createInitCommand">createInitCommand</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#createModuleCommands">createModuleCommands</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#createPromptCommands">createPromptCommands</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#createScanCommand">createScanCommand</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#estimateTokens">estimateTokens</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#extractCodeElements">extractCodeElements</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#fs">fs</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getSectionPriority">getSectionPriority</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#http">http</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#identifyComplexRegions">identifyComplexRegions</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#inquirer">inquirer</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#mcpServe">mcpServe</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#parseContextSections">parseContextSections</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#path">path</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#prioritizeSections">prioritizeSections</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#reduceIndentation">reduceIndentation</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#removeBlankLines">removeBlankLines</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#serve">serve</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#shortenPaths">shortenPaths</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#summarizeFiles">summarizeFiles</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#trimComments">trimComments</a></span></li>
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">version/controller.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * PairCoder Version Controller
+ *
+ * This module handles creating, managing, and restoring project versions.
+ * It allows developers to save snapshots of project state and return to them later.
+ */
+
+const fs = require("fs-extra");
+const path = require("path");
+const { configManager } = require("../core/config");
+const { storageManager } = require("../storage/manager");
+const { moduleManager } = require("../modules/manager");
+const { contextGenerator } = require("../context/generator");
+const { gitIntegration } = require("./git-integration");
+
+/**
+ * Version Controller for PairCoder
+ */
+class VersionController {
+  constructor() {
+    this.gitEnabled = false;
+  }
+
+  /**
+   * Initialize controller with configuration
+   *
+   * @returns {Promise&lt;void>}
+   */
+  async initialize() {
+    try {
+      const config = await configManager.getConfig();
+      this.gitEnabled = config.versioning.gitIntegration || false;
+    } catch (error) {
+      console.warn(
+        `Warning: Error initializing version controller: ${error.message}`,
+      );
+      this.gitEnabled = false;
+    }
+  }
+
+  /**
+   * Save current project state as a version
+   *
+   * @param {string} versionName Name for the version
+   * @param {string} notes Optional notes about the version
+   * @param {Array} moduleNames Optional list of module names to include (all if not specified)
+   * @returns {Promise&lt;Object>} Saved version information
+   */
+  async saveVersion(versionName, notes = "", moduleNames = null) {
+    await this.initialize();
+
+    try {
+      // Validate version name
+      if (!versionName || versionName.trim() === "") {
+        throw new Error("Version name cannot be empty");
+      }
+
+      // Check if version already exists
+      const existingVersion = await storageManager.getVersion(versionName);
+      if (existingVersion) {
+        throw new Error(`Version '${versionName}' already exists`);
+      }
+
+      // Get modules to include
+      let modules = [];
+      if (moduleNames &amp;&amp; Array.isArray(moduleNames) &amp;&amp; moduleNames.length > 0) {
+        // Get specified modules
+        for (const moduleName of moduleNames) {
+          try {
+            const module = await moduleManager.getModule(moduleName);
+            modules.push(module);
+          } catch (error) {
+            console.warn(`Warning: Module '${moduleName}' not found, skipping`);
+          }
+        }
+      } else {
+        // Get all modules
+        modules = await moduleManager.listModules();
+      }
+
+      if (modules.length === 0) {
+        throw new Error("No modules to include in version");
+      }
+
+      // Build version snapshot
+      const snapshot = {
+        name: versionName,
+        timestamp: new Date().toISOString(),
+        notes: notes || "",
+        modules: {},
+        git: null,
+      };
+
+      // Process each module
+      for (const module of modules) {
+        // Generate context if it doesn't exist
+        await contextGenerator.generateModuleContext(module.name);
+
+        // Get module metadata
+        const metadata = await storageManager.getModuleMetadata(module.name);
+
+        snapshot.modules[module.name] = {
+          path: module.path,
+          description: module.description,
+          lastUpdated: metadata
+            ? metadata.lastUpdated
+            : new Date().toISOString(),
+        };
+      }
+
+      // Add Git information if enabled
+      if (this.gitEnabled) {
+        try {
+          snapshot.git = await gitIntegration.getGitInfo();
+        } catch (error) {
+          console.warn(
+            `Warning: Error getting Git information: ${error.message}`,
+          );
+          snapshot.git = null;
+        }
+      }
+
+      // Save the snapshot
+      await storageManager.saveVersion(versionName, snapshot);
+
+      // Add journal entry
+      await storageManager.addJournalEntry(
+        `Created version '${versionName}'${notes ? ": " + notes : ""}`,
+      );
+
+      return {
+        name: versionName,
+        timestamp: snapshot.timestamp,
+        moduleCount: Object.keys(snapshot.modules).length,
+        hasGitInfo: !!snapshot.git,
+      };
+    } catch (error) {
+      throw new Error(`Error saving version: ${error.message}`);
+    }
+  }
+
+  /**
+   * Get a list of all versions
+   *
+   * @returns {Promise&lt;Array>} List of versions
+   */
+  async listVersions() {
+    try {
+      const versionNames = await storageManager.listVersions();
+
+      const versions = await Promise.all(
+        versionNames.map(async (name) => {
+          const version = await storageManager.getVersion(name);
+          return {
+            name,
+            timestamp: version.timestamp,
+            notes: version.notes,
+            moduleCount: Object.keys(version.modules).length,
+            hasGitInfo: !!version.git,
+          };
+        }),
+      );
+
+      // Sort by timestamp (newest first)
+      return versions.sort(
+        (a, b) => new Date(b.timestamp) - new Date(a.timestamp),
+      );
+    } catch (error) {
+      throw new Error(`Error listing versions: ${error.message}`);
+    }
+  }
+
+  /**
+   * Get detailed information about a version
+   *
+   * @param {string} versionName Version name
+   * @returns {Promise&lt;Object>} Version details
+   */
+  async getVersion(versionName) {
+    try {
+      const version = await storageManager.getVersion(versionName);
+
+      if (!version) {
+        throw new Error(`Version '${versionName}' not found`);
+      }
+
+      return version;
+    } catch (error) {
+      throw new Error(`Error getting version: ${error.message}`);
+    }
+  }
+
+  /**
+   * Restore project to a specific version
+   *
+   * @param {string} versionName Version name
+   * @returns {Promise&lt;Object>} Restoration result
+   */
+  async restoreVersion(versionName) {
+    try {
+      const version = await this.getVersion(versionName);
+
+      // Currently, this is a conceptual operation since we don't actually modify files
+      // In a real implementation, this would:
+      // 1. Save the current state as a backup
+      // 2. Update configuration to match the version
+      // 3. Possibly checkout the associated Git commit if Git integration is enabled
+
+      // For now, we'll just update the focus to match the version
+      const moduleNames = Object.keys(version.modules);
+      if (moduleNames.length > 0) {
+        await moduleManager.setFocus(moduleNames[0]);
+      }
+
+      // Add journal entry
+      await storageManager.addJournalEntry(
+        `Restored to version '${versionName}'`,
+      );
+
+      return {
+        name: versionName,
+        timestamp: version.timestamp,
+        moduleCount: Object.keys(version.modules).length,
+        restored: true,
+      };
+    } catch (error) {
+      throw new Error(`Error restoring version: ${error.message}`);
+    }
+  }
+
+  /**
+   * Delete a version
+   *
+   * @param {string} versionName Version name
+   * @returns {Promise&lt;boolean>} Success status
+   */
+  async deleteVersion(versionName) {
+    try {
+      // Check if version exists
+      const version = await storageManager.getVersion(versionName);
+
+      if (!version) {
+        throw new Error(`Version '${versionName}' not found`);
+      }
+
+      // Delete the version file
+      const versionPath = path.join(
+        storageManager.directories.versions,
+        `${versionName}.json`,
+      );
+      await fs.remove(versionPath);
+
+      // Add journal entry
+      await storageManager.addJournalEntry(`Deleted version '${versionName}'`);
+
+      return true;
+    } catch (error) {
+      throw new Error(`Error deleting version: ${error.message}`);
+    }
+  }
+
+  /**
+   * Create a version from a Git commit
+   *
+   * @param {string} commitHash Git commit hash
+   * @param {string} versionName Optional version name (uses commit hash if not provided)
+   * @returns {Promise&lt;Object>} Created version
+   */
+  async versionFromCommit(commitHash, versionName = null) {
+    await this.initialize();
+
+    if (!this.gitEnabled) {
+      throw new Error("Git integration is not enabled");
+    }
+
+    try {
+      return await gitIntegration.createVersionFromCommit(
+        commitHash,
+        versionName,
+      );
+    } catch (error) {
+      throw new Error(`Error creating version from commit: ${error.message}`);
+    }
+  }
+
+  /**
+   * Compare two versions
+   *
+   * @param {string} fromVersion Source version name
+   * @param {string} toVersion Target version name
+   * @returns {Promise&lt;Object>} Comparison result
+   */
+  async compareVersions(fromVersion, toVersion) {
+    try {
+      // Get both versions
+      const from = await this.getVersion(fromVersion);
+      const to = await this.getVersion(toVersion);
+
+      if (!from) {
+        throw new Error(`Version '${fromVersion}' not found`);
+      }
+
+      if (!to) {
+        throw new Error(`Version '${toVersion}' not found`);
+      }
+
+      // Compare modules
+      const comparison = {
+        fromVersion,
+        toVersion,
+        timestamp: new Date().toISOString(),
+        moduleChanges: {},
+        added: [],
+        removed: [],
+        modified: [],
+      };
+
+      // Find added and removed modules
+      const fromModules = Object.keys(from.modules);
+      const toModules = Object.keys(to.modules);
+
+      for (const module of fromModules) {
+        if (!toModules.includes(module)) {
+          comparison.removed.push(module);
+        }
+      }
+
+      for (const module of toModules) {
+        if (!fromModules.includes(module)) {
+          comparison.added.push(module);
+        } else {
+          // Module exists in both, check if modified
+          const fromMod = from.modules[module];
+          const toMod = to.modules[module];
+
+          if (fromMod.lastUpdated !== toMod.lastUpdated) {
+            comparison.modified.push(module);
+
+            // Add modification details
+            comparison.moduleChanges[module] = {
+              fromTimestamp: fromMod.lastUpdated,
+              toTimestamp: toMod.lastUpdated,
+              timeDifference:
+                new Date(toMod.lastUpdated) - new Date(fromMod.lastUpdated),
+            };
+          }
+        }
+      }
+
+      // Compare Git information if available
+      if (from.git &amp;&amp; to.git) {
+        comparison.git = {
+          fromCommit: from.git.commit,
+          toCommit: to.git.commit,
+          commitDifference: from.git.commit !== to.git.commit,
+        };
+      }
+
+      return comparison;
+    } catch (error) {
+      throw new Error(`Error comparing versions: ${error.message}`);
+    }
+  }
+}
+
+// Export singleton instance
+const versionController = new VersionController();
+module.exports = { versionController };
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<br class="clear">
+
+<footer>
+    Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.4</a> on Fri May 02 2025 15:06:49 GMT+0530 (India Standard Time) using the Minami theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/linenumber.js"></script>
+</body>
+</html>

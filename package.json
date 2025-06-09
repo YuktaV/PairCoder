@@ -1,18 +1,19 @@
 {
   "name": "paircoder",
-  "version": "0.3.2",
-  "description": "Model Context Protocol server for efficient AI-assisted development",
+  "version": "0.3.4",
+  "description": "Model Context Protocol server for efficient AI-assisted development with Cursor IDE and Claude Desktop integration",
   "main": "src/index.js",
   "bin": {
     "pc": "./bin/pc.js",
-    "paircoder": "./bin/pc.js",
-    "paircoder-mcp": "./bin/pc.js mcp",
+    "paircoder": "./bin/paircoder",
+    "paircoder-mcp": "./bin/pc.js",
     "paircoder-auto": "./bin/auto-detect.js"
   },
   "files": [
     "bin/",
     "src/",
-    "templates/"
+    "templates/",
+    "docs/"
   ],
   "publishConfig": {
     "access": "public"
@@ -29,17 +30,24 @@
     "update-snapshots": "jest --config jest.config.js --updateSnapshot",
     "lint": "eslint --config eslint.config.mjs src/",
     "format": "prettier --write \"src/**/*.js\"",
-    "build": "webpack --config webpack.config.js"
+    "build": "webpack --config webpack.config.js",
+    "docs": "node scripts/generate-docs.js"
   },
   "keywords": [
     "ai",
     "claude",
+    "cursor",
     "development",
     "context",
     "tool",
     "cli",
     "mcp",
-    "model-context-protocol"
+    "model-context-protocol",
+    "ide",
+    "integration",
+    "assistant",
+    "code",
+    "documentation"
   ],
   "author": "Vasanthan M",
   "license": "MIT",
@@ -68,8 +76,18 @@
     "eslint": "^8.57.1",
     "globals": "^16.0.0",
     "jest": "^29.6.2",
+    "jsdoc": "^4.0.2",
+    "minami": "^1.2.3",
     "prettier": "^3.0.2",
     "webpack": "^5.88.2",
     "webpack-cli": "^5.1.4"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/YuktaV/paircoder.git"
+  },
+  "homepage": "https://github.com/YuktaV/paircoder#readme",
+  "bugs": {
+    "url": "https://github.com/YuktaV/paircoder/issues"
   }
 }

@@ -10,7 +10,6 @@ const { program } = require('commander');
 const chalk = require('chalk');
 const packageJson = require('../package.json');
 const { init } = require('../src/cli/commands/init');
-const { module: moduleCommands } = require('../src/cli/commands/module');
 const { focus } = require('../src/cli/commands/focus');
 const { generate } = require('../src/cli/commands/generate');
 const { exportCmd } = require('../src/cli/commands/export');
@@ -27,7 +26,6 @@ program
 
 // Add all commands
 init(program);
-moduleCommands(program);
 focus(program);
 generate(program);
 exportCmd(program);
